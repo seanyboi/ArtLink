@@ -20,5 +20,20 @@ class UserGroupAdminInterface: UIViewController {
     }
     
     
+    @IBAction func addNewGroup(_ sender: Any) {
+        
+        
+    }
+    @IBAction func addNewUser(_ sender: Any) {
+        
+        performSegue(withIdentifier: "EditUsers", sender: nil)
+        
+    }
+    
+    @IBAction func backAction(_ sender: Any) {
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
 

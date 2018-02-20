@@ -14,7 +14,12 @@ class MembersCreate: UIViewController {
         super.viewDidLoad()
         
         
+    }
+    
+    
+    @IBAction func backButton(_ sender: Any) {
         
+        dismiss(animated: true, completion: nil)
         
     }
     

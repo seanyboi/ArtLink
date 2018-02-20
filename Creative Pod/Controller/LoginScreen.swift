@@ -23,7 +23,7 @@ class LoginScreen: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
     
     @IBAction func loggingIn(_ sender: Any) {
         
-        if nameLoginTxtField.text == " Admin" {
+        if nameLoginTxtField.text == "Admin" {
             
             performSegue(withIdentifier: "AdminInterface", sender: nil)
             

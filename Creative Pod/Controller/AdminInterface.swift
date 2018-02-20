@@ -18,7 +18,16 @@ class AdminInterface: UIViewController {
         
     }
     
-
+    @IBAction func adminViewDesigns(_ sender: Any) {
+        
+        performSegue(withIdentifier: "AdminViewDesigns", sender: nil)
+        
+    }
+    @IBAction func adminUsersGroups(_ sender: Any) {
+        
+        performSegue(withIdentifier: "UsersGroups", sender: nil)
+    }
+    
     @IBAction func loggingOut(_ sender: Any) {
         
         dismiss(animated: true, completion: nil)
