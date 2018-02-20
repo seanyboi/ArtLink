@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NameList: UIViewController {
+class NameList: UIViewController, UITableViewDelegate {
 
     
     override func viewDidLoad() {

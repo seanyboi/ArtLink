@@ -5,4 +5,19 @@
 //  Created by Sean O'Connor on 19/02/2018.
 //
 
-import Foundation
+import UIKit
+
+class MemberMainInterface: UIViewController {
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        
+        
+        
+    }
+    
+    
+}
+
