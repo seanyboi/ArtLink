@@ -18,6 +18,10 @@ class MemberMainInterface: UIViewController {
         
     }
     
+    @IBAction func loggingOut(_ sender: Any) {
+        
+        dismiss(animated: true, completion: nil)
+    }
     
 }
 

@@ -13,10 +13,11 @@ class NameList: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
-
+    
     }
 
-
+    @IBAction func backBtnPresssed(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
 }

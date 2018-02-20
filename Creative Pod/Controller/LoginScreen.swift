@@ -21,7 +21,32 @@ class LoginScreen: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
     @IBOutlet weak var loginBtn: UIButton!
     
     
-
+    @IBAction func loggingIn(_ sender: Any) {
+        
+        if nameLoginTxtField.text == " Admin" {
+            
+            performSegue(withIdentifier: "AdminInterface", sender: nil)
+            
+        } else if nameLoginTxtField.text == "Member" {
+            
+            performSegue(withIdentifier: "MemberInterface", sender: nil)
+            
+        } else if nameLoginTxtField.text == "Artist" {
+            
+            performSegue(withIdentifier: "GroupList", sender: nil)
+            
+        } else if nameLoginTxtField.text == "Buddy" {
+            
+            performSegue(withIdentifier: "NameList", sender: nil)
+            
+        } else {
+            
+            print("ERROR LOGGING IN")
+            
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
