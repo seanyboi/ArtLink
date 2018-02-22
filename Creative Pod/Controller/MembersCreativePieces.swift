@@ -10,10 +10,26 @@ import UIKit
 class MembersCreativePieces: UIViewController {
     
     
+    @IBOutlet weak var membersNameLbl: UILabel!
+    
+    private var _userName: Users!
+    
+    var userName: Users {
+        get {
+            return _userName
+        } set {
+            _userName = newValue
+        }
+    }
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        //TODO: Check if type is member 
+        membersNameLbl.text = userName.userName
         
         
     }

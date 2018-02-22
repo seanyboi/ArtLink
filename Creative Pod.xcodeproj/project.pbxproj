@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1420CB81203EDC870011717A /* NameListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1420CB80203EDC870011717A /* NameListCell.swift */; };
+		1420CB83203EE2300011717A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1420CB82203EE2300011717A /* Users.swift */; };
+		1420CB85203EEE410011717A /* Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1420CB84203EEE410011717A /* Groups.swift */; };
+		1420CB87203EEECD0011717A /* GroupListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1420CB86203EEECD0011717A /* GroupListCell.swift */; };
+		14335D60203F11D8005F3768 /* AdminUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14335D5F203F11D8005F3768 /* AdminUsersCell.swift */; };
+		14335D62203F11E8005F3768 /* AdminGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14335D61203F11E8005F3768 /* AdminGroupCell.swift */; };
 		149941AD203B23AE004B1507 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149941AC203B23AE004B1507 /* AppDelegate.swift */; };
 		149941AF203B23AE004B1507 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149941AE203B23AE004B1507 /* LoginScreen.swift */; };
 		149941B2203B23AE004B1507 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 149941B0203B23AE004B1507 /* Main.storyboard */; };
@@ -19,12 +25,17 @@
 		149941CC203B60F7004B1507 /* GroupList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149941CB203B60F7004B1507 /* GroupList.swift */; };
 		149941CE203B65F6004B1507 /* MemberMainInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149941CD203B65F6004B1507 /* MemberMainInterface.swift */; };
 		149941D0203C2ECC004B1507 /* MembersCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149941CF203C2ECC004B1507 /* MembersCreate.swift */; };
-		149941D2203C2F08004B1507 /* AdminInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149941D1203C2F08004B1507 /* AdminInterface.swift */; };
 		149941D4203C3AF7004B1507 /* UserGroupAdminInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149941D3203C3AF7004B1507 /* UserGroupAdminInterface.swift */; };
 		149941D6203C3B3F004B1507 /* EditingUserGroupInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149941D5203C3B3F004B1507 /* EditingUserGroupInterface.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1420CB80203EDC870011717A /* NameListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameListCell.swift; sourceTree = "<group>"; };
+		1420CB82203EE2300011717A /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		1420CB84203EEE410011717A /* Groups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Groups.swift; sourceTree = "<group>"; };
+		1420CB86203EEECD0011717A /* GroupListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListCell.swift; sourceTree = "<group>"; };
+		14335D5F203F11D8005F3768 /* AdminUsersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminUsersCell.swift; sourceTree = "<group>"; };
+		14335D61203F11E8005F3768 /* AdminGroupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminGroupCell.swift; sourceTree = "<group>"; };
 		149941A9203B23AE004B1507 /* Creative Pod.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Creative Pod.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		149941AC203B23AE004B1507 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		149941AE203B23AE004B1507 /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
@@ -39,7 +50,6 @@
 		149941CB203B60F7004B1507 /* GroupList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupList.swift; sourceTree = "<group>"; };
 		149941CD203B65F6004B1507 /* MemberMainInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberMainInterface.swift; sourceTree = "<group>"; };
 		149941CF203C2ECC004B1507 /* MembersCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersCreate.swift; sourceTree = "<group>"; };
-		149941D1203C2F08004B1507 /* AdminInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminInterface.swift; sourceTree = "<group>"; };
 		149941D3203C3AF7004B1507 /* UserGroupAdminInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGroupAdminInterface.swift; sourceTree = "<group>"; };
 		149941D5203C3B3F004B1507 /* EditingUserGroupInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingUserGroupInterface.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,7 +106,6 @@
 				149941CB203B60F7004B1507 /* GroupList.swift */,
 				149941CD203B65F6004B1507 /* MemberMainInterface.swift */,
 				149941CF203C2ECC004B1507 /* MembersCreate.swift */,
-				149941D1203C2F08004B1507 /* AdminInterface.swift */,
 				149941D3203C3AF7004B1507 /* UserGroupAdminInterface.swift */,
 				149941D5203C3B3F004B1507 /* EditingUserGroupInterface.swift */,
 			);
@@ -107,6 +116,10 @@
 			isa = PBXGroup;
 			children = (
 				149941C4203B33DF004B1507 /* RoundedButton.swift */,
+				1420CB80203EDC870011717A /* NameListCell.swift */,
+				1420CB86203EEECD0011717A /* GroupListCell.swift */,
+				14335D5F203F11D8005F3768 /* AdminUsersCell.swift */,
+				14335D61203F11E8005F3768 /* AdminGroupCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -114,6 +127,8 @@
 		149941C0203B2A8A004B1507 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1420CB82203EE2300011717A /* Users.swift */,
+				1420CB84203EEE410011717A /* Groups.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -199,16 +214,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				149941CA203B5317004B1507 /* MembersCreativePieces.swift in Sources */,
-				149941D2203C2F08004B1507 /* AdminInterface.swift in Sources */,
+				1420CB81203EDC870011717A /* NameListCell.swift in Sources */,
+				1420CB83203EE2300011717A /* Users.swift in Sources */,
 				149941D6203C3B3F004B1507 /* EditingUserGroupInterface.swift in Sources */,
 				149941CC203B60F7004B1507 /* GroupList.swift in Sources */,
+				14335D62203F11E8005F3768 /* AdminGroupCell.swift in Sources */,
 				149941C8203B4C5E004B1507 /* NameList.swift in Sources */,
 				149941AF203B23AE004B1507 /* LoginScreen.swift in Sources */,
 				149941C5203B33E0004B1507 /* RoundedButton.swift in Sources */,
 				149941D4203C3AF7004B1507 /* UserGroupAdminInterface.swift in Sources */,
+				14335D60203F11D8005F3768 /* AdminUsersCell.swift in Sources */,
+				1420CB87203EEECD0011717A /* GroupListCell.swift in Sources */,
 				149941D0203C2ECC004B1507 /* MembersCreate.swift in Sources */,
 				149941CE203B65F6004B1507 /* MemberMainInterface.swift in Sources */,
 				149941AD203B23AE004B1507 /* AppDelegate.swift in Sources */,
+				1420CB85203EEE410011717A /* Groups.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
