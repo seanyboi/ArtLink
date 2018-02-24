@@ -10,7 +10,7 @@ import UIKit
 class NameListCell: UITableViewCell {
     
     
-    @IBOutlet weak var userName: UILabel!
+    @IBOutlet weak var memberName: UILabel!
     
 
     override func awakeFromNib() {
@@ -24,7 +24,7 @@ class NameListCell: UITableViewCell {
         
         //if memberName.typeOfUser == "Member" {
             
-        userName.text = usersName.userName
+        memberName.text = usersName.userName
 
         //}
         

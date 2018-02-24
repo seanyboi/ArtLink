@@ -17,12 +17,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var nameListTableView: UITableView!
     
     var usersArray = [Users]()
-    var groupArray = [Groups]()
-    
-    var artist: String = "Artist"
-    var buddy: String = "Buddy"
-    var member: String = "Member"
-    
+    var groupArray = [Groups]()    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -161,7 +156,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
          
             let groupField = alert?.textFields![0]
-            self.groupArray.append(Groups(groupName: groupField?.text))
+            self.groupArray.append(Groups(groupName: (groupField?.text)!))
             self.groupListTableView.reloadData()
 
         }))

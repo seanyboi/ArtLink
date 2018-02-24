@@ -10,11 +10,6 @@ import UIKit
 
 class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-
-    
-    
-    
-    
     @IBOutlet weak var typePicker: UIPickerView!
     
     var typePickerData: [String] = [String]()

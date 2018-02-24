@@ -27,7 +27,22 @@ class MemberMainInterface: UIViewController {
     @IBAction func createDesign(_ sender: Any) {
         
         performSegue(withIdentifier: "MembersCreate", sender: nil)
+        
     }
+    
+    
+    //override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        //if let destination = segue.destination as? MembersCreativePieces {
+            
+            //if let user = sender as? Users {
+                
+                //destination.userName  = user
+                
+            //}
+        //}
+        
+    //}
     
     
     @IBAction func loggingOut(_ sender: Any) {

@@ -16,7 +16,7 @@ class Groups {
     }
     
     
-    init(groupName: String!) {
+    init(groupName: String) {
         
         _groupName = groupName
         
