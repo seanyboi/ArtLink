@@ -670,6 +670,7 @@
                         <viewLayoutGuide key="safeArea" id="biT-Hb-DZO"/>
                     </view>
                     <connections>
+                        <outlet property="buddyLbl" destination="Sp2-oF-jNK" id="Czo-T2-2zi"/>
                         <outlet property="buddyPicker" destination="0VD-Ex-jBb" id="2T8-WK-0TE"/>
                         <outlet property="groupPicker" destination="Cjb-rn-7o1" id="JN7-qx-bH7"/>
                         <outlet property="nameTxtField" destination="L8C-k8-Rlm" id="mro-tb-LFQ"/>

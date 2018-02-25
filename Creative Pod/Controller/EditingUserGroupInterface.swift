@@ -7,10 +7,14 @@
 
 
 import UIKit
+import FirebaseDatabase
 import Firebase
 
 
+
 class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    @IBOutlet weak var buddyLbl: UILabel!
     
     @IBOutlet weak var typePicker: UIPickerView!
     
@@ -27,6 +31,13 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
     @IBOutlet weak var nameTxtField: UITextField!
     
     @IBOutlet weak var passwordTxtField: UITextField!
+    
+    var type: String = ""
+    var name: String = ""
+    var groupName: String = ""
+    var buddyName: String = ""
+    
+    var ref: DatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,23 +87,44 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
         
         if pickerView.tag == 1 {
             
-            let pickedValue = typePickerData[row] as String
+            let typeValue = typePickerData[row] as String
             
-            if  pickedValue == "Artist" || pickedValue == "Buddy"{
+            if  typeValue == "Artist" || typeValue == "Buddy"{
                 
                 buddyPicker.isHidden = true
+                buddyLbl.isHidden = true
+                type = typeValue
                 
-        } else if pickedValue == "Member of Artlink" {
+            } else if typeValue == "Member of Artlink" {
                 
                 buddyPicker.isHidden = false
+                buddyLbl.isHidden = false
+                type = typeValue
             
+            } else {
+                return
+            }
+            
+        } else if pickerView.tag == 2 {
+            
+            let groupValue = groupPickerData[row] as String
+            groupName = groupValue
+            
+        } else if pickerView.tag == 3 {
+            
+            if buddyPicker.isHidden == true {
+                buddyName = ""
+            } else {
+                let buddyValue = buddyPickerData[row] as String
+                buddyName = buddyValue
+            }
             
         } else {
-                
-                return
-    
+            return
         }
-        }
+        
+        
+        
     }
     
     
@@ -113,11 +145,32 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
             let nameEmailField = "\(nameTxtField.text!)@artlink.co.uk"
             let passwordField = "\(passwordTxtField.text!)"
             
+            //checks that password is legit length (6), perform other checks such as surname etc
             Auth.auth().createUser(withEmail: nameEmailField, password: passwordField, completion: { (user, error) in
                 
                 if error == nil {
                     
-                    let ref = 
+                    let name = self.nameTxtField.text
+                    
+                    let ref = Database.database().reference()
+                    let usersRef = ref.child("users")
+                    let usersUIDRef = usersRef.child((user?.uid)!)
+                    let values = ["Type": self.type, "Name": name, "Group": self.groupName, "Buddy": self.buddyName]
+                    usersUIDRef.updateChildValues(values as Any as! [AnyHashable : Any], withCompletionBlock: { (error, ref) in
+                        
+                        if error == nil {
+                            
+                            print("Saved Succesfully into Realtime Database")
+                        
+                        } else {
+                            
+                            print(error!)
+                            
+                        }
+                        
+                        
+                    })
+                    
                     
                 } else {
                     
