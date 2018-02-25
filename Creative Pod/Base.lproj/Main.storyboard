@@ -44,28 +44,8 @@
                                     <constraint firstItem="Koy-96-7H4" firstAttribute="leading" secondItem="kf0-pk-f4y" secondAttribute="leading" constant="10" id="tD6-WQ-67g"/>
                                 </constraints>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Frx-Qj-OiS">
-                                <rect key="frame" x="10" y="362.5" width="814" height="260"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please choose your type of user:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QRl-rM-8ob">
-                                        <rect key="frame" x="10" y="0.0" width="794" height="34"/>
-                                        <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tTf-jr-yJi">
-                                        <rect key="frame" x="10" y="44" width="794" height="216"/>
-                                    </pickerView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="tTf-jr-yJi" secondAttribute="trailing" constant="10" id="Ywp-aK-iOU"/>
-                                    <constraint firstItem="tTf-jr-yJi" firstAttribute="leading" secondItem="Frx-Qj-OiS" secondAttribute="leading" constant="10" id="l8o-aq-GC0"/>
-                                    <constraint firstItem="QRl-rM-8ob" firstAttribute="leading" secondItem="Frx-Qj-OiS" secondAttribute="leading" constant="10" id="rZ4-E7-3Y6"/>
-                                    <constraint firstAttribute="trailing" secondItem="QRl-rM-8ob" secondAttribute="trailing" constant="10" id="xly-SQ-AYl"/>
-                                </constraints>
-                            </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="qpE-b8-Mbz">
-                                <rect key="frame" x="10" y="672.5" width="814" height="74"/>
+                                <rect key="frame" x="10" y="412.5" width="814" height="74"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RZj-CC-pQw">
                                         <rect key="frame" x="0.0" y="0.0" width="814" height="34"/>
@@ -82,7 +62,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="mGD-NL-C9z">
-                                <rect key="frame" x="10" y="796.5" width="814" height="74"/>
+                                <rect key="frame" x="10" y="536.5" width="814" height="74"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="McQ-Gf-7Es">
                                         <rect key="frame" x="0.0" y="0.0" width="814" height="34"/>
@@ -99,7 +79,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="TT4-AJ-Yuj">
-                                <rect key="frame" x="10" y="970.5" width="814" height="76"/>
+                                <rect key="frame" x="10" y="710.5" width="814" height="76"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oHY-5F-lV6" customClass="RoundedButton" customModule="Creative_Pod" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="814" height="76"/>
@@ -124,18 +104,15 @@
                         <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="qpE-b8-Mbz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="3bC-Cr-8Ff"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Frx-Qj-OiS" secondAttribute="trailing" constant="10" id="8Yo-nS-6Qy"/>
-                            <constraint firstItem="Frx-Qj-OiS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="GH4-Y1-FjL"/>
+                            <constraint firstItem="qpE-b8-Mbz" firstAttribute="top" secondItem="kf0-pk-f4y" secondAttribute="bottom" constant="100" id="9im-Cm-47P"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qpE-b8-Mbz" secondAttribute="trailing" constant="10" id="HcP-UU-yK8"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="TT4-AJ-Yuj" secondAttribute="trailing" constant="10" id="Nb2-Yl-U7R"/>
                             <constraint firstItem="mGD-NL-C9z" firstAttribute="top" secondItem="qpE-b8-Mbz" secondAttribute="bottom" constant="50" id="OHC-QI-Arq"/>
                             <constraint firstItem="kf0-pk-f4y" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="PKF-hJ-dTm"/>
                             <constraint firstItem="mGD-NL-C9z" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="Uc0-mX-nhQ"/>
-                            <constraint firstItem="qpE-b8-Mbz" firstAttribute="top" secondItem="Frx-Qj-OiS" secondAttribute="bottom" constant="50" id="VuT-8K-fG0"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="kf0-pk-f4y" secondAttribute="trailing" constant="10" id="lBJ-4G-n8T"/>
                             <constraint firstItem="kf0-pk-f4y" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lxq-w8-ma1"/>
                             <constraint firstItem="kf0-pk-f4y" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="mWl-hn-RBm"/>
-                            <constraint firstItem="Frx-Qj-OiS" firstAttribute="top" secondItem="kf0-pk-f4y" secondAttribute="bottom" constant="50" id="sY6-qd-LQ7"/>
                             <constraint firstItem="TT4-AJ-Yuj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="uMK-mO-g5f"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="mGD-NL-C9z" secondAttribute="trailing" constant="10" id="xXV-mc-ZW2"/>
                             <constraint firstItem="TT4-AJ-Yuj" firstAttribute="top" secondItem="mGD-NL-C9z" secondAttribute="bottom" constant="100" id="y7Z-qP-l8o"/>
@@ -144,7 +121,6 @@
                     </view>
                     <connections>
                         <outlet property="loginBtn" destination="oHY-5F-lV6" id="9K6-sk-OLM"/>
-                        <outlet property="loginPicker" destination="tTf-jr-yJi" id="fVM-cT-ewb"/>
                         <outlet property="nameLoginTxtField" destination="Awz-QG-eVY" id="6hn-dt-LSj"/>
                         <outlet property="passwordLoginTxtField" destination="7Xk-82-TZ2" id="3Wq-dv-SZJ"/>
                         <segue destination="Rpd-ll-zeC" kind="showDetail" identifier="NameList" id="HAK-Fh-9Ct"/>
@@ -651,30 +627,30 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="5qQ-7u-XpV">
-                                        <rect key="frame" x="0.0" y="486" width="814" height="188"/>
+                                        <rect key="frame" x="0.0" y="486" width="814" height="216"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Group:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qQ1-ne-786">
-                                                <rect key="frame" x="0.0" y="0.0" width="382" height="188"/>
-                                                <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="30"/>
-                                                <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <pickerView tag="2" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cjb-rn-7o1">
-                                                <rect key="frame" x="432" y="0.0" width="382" height="188"/>
-                                            </pickerView>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="O39-SZ-tzx">
-                                        <rect key="frame" x="0.0" y="724" width="814" height="216"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Buddy:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sp2-oF-jNK">
                                                 <rect key="frame" x="0.0" y="0.0" width="382" height="216"/>
                                                 <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="30"/>
                                                 <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <pickerView tag="3" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0VD-Ex-jBb">
+                                            <pickerView tag="2" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cjb-rn-7o1">
                                                 <rect key="frame" x="432" y="0.0" width="382" height="216"/>
+                                            </pickerView>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="O39-SZ-tzx">
+                                        <rect key="frame" x="0.0" y="752" width="814" height="188"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Buddy:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sp2-oF-jNK">
+                                                <rect key="frame" x="0.0" y="0.0" width="382" height="188"/>
+                                                <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="30"/>
+                                                <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <pickerView tag="3" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0VD-Ex-jBb">
+                                                <rect key="frame" x="432" y="0.0" width="382" height="188"/>
                                             </pickerView>
                                         </subviews>
                                     </stackView>

@@ -6,5 +6,6 @@ target 'Creative Pod' do
   use_frameworks!
 
   # Pods for Creative Pod
-    pod 'Firebase'
+   pod 'Firebase'
+   pod 'Firebase/Auth'
 end

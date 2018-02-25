@@ -6,13 +6,11 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
 
-class LoginScreen: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class LoginScreen: UIViewController {
     
-    
-    @IBOutlet weak var loginPicker: UIPickerView!
-    
-    var pickerData: [String] = [String]()
     
     @IBOutlet weak var nameLoginTxtField: UITextField!
     
@@ -22,6 +20,24 @@ class LoginScreen: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
     
     
     @IBAction func loggingIn(_ sender: Any) {
+        
+        
+        if nameLoginTxtField.text == "" || passwordLoginTxtField.text == "" {
+            
+            let loginAlert = UIAlertController(title: "Error", message: "There was an error logging in, please check details", preferredStyle: .alert)
+            
+            let loginAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            
+            loginAlert.addAction(loginAction)
+            
+            self.present(loginAlert, animated: true, completion: nil)
+            
+        } else {
+            
+            let emailLogin = nameLoginTxtField.text
+            
+            //for member they do not need email, they simply put in their first name and it'll append it to a login email, password will be generic too
+        }
         
         if nameLoginTxtField.text == "Admin" {
             
@@ -50,32 +66,9 @@ class LoginScreen: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.loginPicker.delegate = self
-        self.loginPicker.dataSource = self
-        
-        pickerData = ["Member of Artlink", "Administrator", "Buddy", "Artist"]
-        
+
     }
     
-    //Number of columns of data in pickerView
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    //Number of rows of data in pickerView
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData.count
-    }
-    
-    //Data to return for the row and component (column) thats being pass in
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row]
-    }
-    
-    //Capture picker view selection
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        // Method triggered whenever the user makes a change to picker selection.
-    }
 
     
 
