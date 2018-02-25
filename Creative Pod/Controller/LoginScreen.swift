@@ -24,7 +24,7 @@ class LoginScreen: UIViewController {
         
         if nameLoginTxtField.text == "" || passwordLoginTxtField.text == "" {
             
-            let loginAlert = UIAlertController(title: "Error", message: "There was an error logging in, please check details", preferredStyle: .alert)
+            let loginAlert = UIAlertController(title: "Error", message: "There was an error logging in, please do not leave text field blank", preferredStyle: .alert)
             
             let loginAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
             
@@ -34,33 +34,34 @@ class LoginScreen: UIViewController {
             
         } else {
             
-            let emailLogin = nameLoginTxtField.text
+            let nameField = "\(nameLoginTxtField.text!)@artlink.co.uk"
+            
+            Auth.auth().signIn(withEmail: nameField, password: self.passwordLoginTxtField.text!, completion: { (user, error) in
+                
+                if error == nil {
+                    
+                    self.performSegue(withIdentifier: "AdminInterface", sender: nil)
+                    print("successfully logged in")
+                    
+                } else {
+                    
+                    let loginAlert = UIAlertController(title: "Error", message: "There was an error logging in, please check details", preferredStyle: .alert)
+                    
+                    let loginAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    
+                    loginAlert.addAction(loginAction)
+                    
+                    self.present(loginAlert, animated: true, completion: nil)
+                    
+                }
+                
+            })
+            
             
             //for member they do not need email, they simply put in their first name and it'll append it to a login email, password will be generic too
-        }
-        
-        if nameLoginTxtField.text == "Admin" {
             
-            performSegue(withIdentifier: "AdminInterface", sender: nil)
-            
-        } else if nameLoginTxtField.text == "Member" {
-            
-            performSegue(withIdentifier: "MemberInterface", sender: nil)
-            
-        } else if nameLoginTxtField.text == "Artist" {
-            
-            performSegue(withIdentifier: "GroupList", sender: nil)
-            
-        } else if nameLoginTxtField.text == "Buddy" {
-            
-            performSegue(withIdentifier: "NameList", sender: nil)
-            
-        } else {
-            
-            print("ERROR LOGGING IN")
             
         }
-        
     }
     
     override func viewDidLoad() {

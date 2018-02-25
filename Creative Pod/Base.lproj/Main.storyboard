@@ -493,32 +493,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="834" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="RUe-k7-Wt3">
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="RUe-k7-Wt3">
                                                     <rect key="frame" x="10" y="5" width="814" height="33.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8eh-jb-Y81">
-                                                            <rect key="frame" x="0.0" y="0.0" width="271.5" height="33.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="58.5" height="33.5"/>
                                                             <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="20"/>
                                                             <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n4T-Bu-Hw6">
-                                                            <rect key="frame" x="271.5" y="0.0" width="271" height="33.5"/>
+                                                            <rect key="frame" x="755.5" y="0.0" width="58.5" height="33.5"/>
                                                             <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="20"/>
                                                             <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Vu-zm-8pR" customClass="RoundedButton" customModule="Creative_Pod" customModuleProvider="target">
-                                                            <rect key="frame" x="542.5" y="0.0" width="271.5" height="33.5"/>
-                                                            <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="20"/>
-                                                            <state key="normal" title="Edit User">
-                                                                <color key="titleColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="editUserButtonPressed:" destination="PPR-r4-QXN" eventType="touchUpInside" id="y5Q-ui-d3J"/>
-                                                                <segue destination="lUQ-ke-8ih" kind="showDetail" id="1uX-HP-rvM"/>
-                                                            </connections>
-                                                        </button>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
@@ -559,6 +548,7 @@
                         <outlet property="groupListTableView" destination="khR-Jw-pNP" id="ea4-fY-Acy"/>
                         <outlet property="nameListTableView" destination="FEt-Gu-Ee4" id="g3j-Xa-H4a"/>
                         <segue destination="rGB-fD-C3b" kind="showDetail" identifier="ViewMembersFromAdmin" id="V1P-YE-kDM"/>
+                        <segue destination="lUQ-ke-8ih" kind="showDetail" identifier="EditUsers" id="EmD-9c-YT8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oRR-Hr-PYH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -627,30 +617,30 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="5qQ-7u-XpV">
-                                        <rect key="frame" x="0.0" y="486" width="814" height="216"/>
+                                        <rect key="frame" x="0.0" y="486" width="814" height="188"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Group:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qQ1-ne-786">
-                                                <rect key="frame" x="0.0" y="0.0" width="382" height="216"/>
-                                                <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="30"/>
-                                                <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <pickerView tag="2" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cjb-rn-7o1">
-                                                <rect key="frame" x="432" y="0.0" width="382" height="216"/>
-                                            </pickerView>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="O39-SZ-tzx">
-                                        <rect key="frame" x="0.0" y="752" width="814" height="188"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Buddy:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sp2-oF-jNK">
                                                 <rect key="frame" x="0.0" y="0.0" width="382" height="188"/>
                                                 <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="30"/>
                                                 <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <pickerView tag="3" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0VD-Ex-jBb">
+                                            <pickerView tag="2" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cjb-rn-7o1">
                                                 <rect key="frame" x="432" y="0.0" width="382" height="188"/>
+                                            </pickerView>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="O39-SZ-tzx">
+                                        <rect key="frame" x="0.0" y="724" width="814" height="216"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Buddy:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sp2-oF-jNK">
+                                                <rect key="frame" x="0.0" y="0.0" width="382" height="216"/>
+                                                <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="30"/>
+                                                <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <pickerView tag="3" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0VD-Ex-jBb">
+                                                <rect key="frame" x="432" y="0.0" width="382" height="216"/>
                                             </pickerView>
                                         </subviews>
                                     </stackView>
@@ -682,6 +672,8 @@
                     <connections>
                         <outlet property="buddyPicker" destination="0VD-Ex-jBb" id="2T8-WK-0TE"/>
                         <outlet property="groupPicker" destination="Cjb-rn-7o1" id="JN7-qx-bH7"/>
+                        <outlet property="nameTxtField" destination="L8C-k8-Rlm" id="mro-tb-LFQ"/>
+                        <outlet property="passwordTxtField" destination="oPa-fM-RPw" id="NTe-W1-1xh"/>
                         <outlet property="typePicker" destination="hIo-BS-ZmL" id="1dc-dR-TfY"/>
                     </connections>
                 </viewController>

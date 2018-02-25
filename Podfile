@@ -8,4 +8,5 @@ target 'Creative Pod' do
   # Pods for Creative Pod
    pod 'Firebase'
    pod 'Firebase/Auth'
+   pod 'Firebase/Database'
 end

@@ -7,6 +7,8 @@
 
 
 import UIKit
+import Firebase
+
 
 class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -22,7 +24,9 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
     
     var buddyPickerData: [String] = [String]()
 
+    @IBOutlet weak var nameTxtField: UITextField!
     
+    @IBOutlet weak var passwordTxtField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +72,69 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
         }
     }
     
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        if pickerView.tag == 1 {
+            
+            let pickedValue = typePickerData[row] as String
+            
+            if  pickedValue == "Artist" || pickedValue == "Buddy"{
+                
+                buddyPicker.isHidden = true
+                
+        } else if pickedValue == "Member of Artlink" {
+                
+                buddyPicker.isHidden = false
+            
+            
+        } else {
+                
+                return
+    
+        }
+        }
+    }
+    
+    
     @IBAction func saveChangesBtn(_ sender: Any) {
+        
+        if nameTxtField.text == "" || passwordTxtField.text == "" {
+            
+            let loginAlert = UIAlertController(title: "Error", message: "There was an error logging in, please do not leave text field blank", preferredStyle: .alert)
+            
+            let loginAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            
+            loginAlert.addAction(loginAction)
+            
+            self.present(loginAlert, animated: true, completion: nil)
+            
+        } else {
+            
+            let nameEmailField = "\(nameTxtField.text!)@artlink.co.uk"
+            let passwordField = "\(passwordTxtField.text!)"
+            
+            Auth.auth().createUser(withEmail: nameEmailField, password: passwordField, completion: { (user, error) in
+                
+                if error == nil {
+                    
+                    let ref = 
+                    
+                } else {
+                    
+                    let loginAlert = UIAlertController(title: "Error", message: "There was an error creating the user, please try again", preferredStyle: .alert)
+                    
+                    let loginAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    
+                    loginAlert.addAction(loginAction)
+                    
+                    self.present(loginAlert, animated: true, completion: nil)
+                }
+                
+                
+            
+            })
+            
+        }
         
         dismiss(animated: true, completion: nil)
         
