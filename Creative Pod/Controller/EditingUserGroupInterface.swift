@@ -132,7 +132,7 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
         
         if nameTxtField.text == "" || passwordTxtField.text == "" {
             
-            let loginAlert = UIAlertController(title: "Error", message: "There was an error logging in, please do not leave text field blank", preferredStyle: .alert)
+            let loginAlert = UIAlertController(title: "Error", message: "There was an creating a user, please do not leave text field blank", preferredStyle: .alert)
             
             let loginAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
             
@@ -174,6 +174,7 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
                     
                 } else {
                     
+                    //this gets dismissed quickly, put a delay in possibly
                     let loginAlert = UIAlertController(title: "Error", message: "There was an error creating the user, please try again", preferredStyle: .alert)
                     
                     let loginAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -189,6 +190,7 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
             
         }
         
+        //put some clause into this
         dismiss(animated: true, completion: nil)
         
     }

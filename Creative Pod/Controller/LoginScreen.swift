@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import FirebaseDatabase
 
 class LoginScreen: UIViewController {
     
@@ -17,7 +18,6 @@ class LoginScreen: UIViewController {
     @IBOutlet weak var passwordLoginTxtField: UITextField!
     
     @IBOutlet weak var loginBtn: UIButton!
-    
     
     @IBAction func loggingIn(_ sender: Any) {
         
@@ -40,8 +40,33 @@ class LoginScreen: UIViewController {
                 
                 if error == nil {
                     
-                    self.performSegue(withIdentifier: "AdminInterface", sender: nil)
-                    print("successfully logged in")
+                    //observe single event means we dont register each time
+                    Database.database().reference().child("users/\(user!.uid)/Type").observe(.value, with: { (snapshot) in
+   
+                        switch snapshot.value as! String {
+                            
+                        case "Member of Artlink":
+                            self.performSegue(withIdentifier: "MemberInterface", sender: nil)
+                        case "Artist":
+                            self.performSegue(withIdentifier: "GroupList", sender: nil)
+                        case "Buddy":
+                            self.performSegue(withIdentifier: "NameList", sender: nil)
+                        case "Admin":
+                            self.performSegue(withIdentifier: "AdminInterface", sender: nil)
+                        default:
+                            
+                            let loginAlert = UIAlertController(title: "Error", message: "Couldn't find user type", preferredStyle: .alert)
+                            
+                            let loginAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                            
+                            loginAlert.addAction(loginAction)
+                            
+                            self.present(loginAlert, animated: true, completion: nil)
+                            
+                        }
+                        
+                        
+                    })
                     
                 } else {
                     
@@ -56,10 +81,6 @@ class LoginScreen: UIViewController {
                 }
                 
             })
-            
-            
-            //for member they do not need email, they simply put in their first name and it'll append it to a login email, password will be generic too
-            
             
         }
     }
