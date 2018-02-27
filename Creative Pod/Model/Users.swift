@@ -11,24 +11,24 @@ import Foundation
 class Users {
     
     
-    private var _userName: String!
-    private var _typeOfUser: String!
-    private var _groupName: String!
+    private var _userName: String?
+    private var _typeOfUser: String?
+    private var _groupName: String?
     
     
     var userName: String {
-        return _userName
+        return _userName!
     }
     
     var typeOfUser: String {
-        return _typeOfUser
+        return _typeOfUser!
     }
     
     var groupName: String {
-        return _groupName
+        return _groupName!
     }
     
-    init(typeOfUser: String, userName: String, groupName: String) {
+    init(typeOfUser: String?, userName: String?, groupName: String?) {
         
         _userName = userName
         _typeOfUser = typeOfUser

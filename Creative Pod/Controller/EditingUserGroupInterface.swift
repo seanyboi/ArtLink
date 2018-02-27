@@ -49,9 +49,37 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
         self.buddyPicker.delegate = self
         self.buddyPicker.dataSource = self
         
-        typePickerData = ["Member of Artlink", "Buddy", "Artist"]
+        let buddyReference = Database.database().reference().child("users")
+        
+        buddyReference.observe(DataEventType.value) { (snapshot) in
+            if snapshot.childrenCount > 0 {
+                
+                self.buddyPickerData.removeAll()
+                
+                for buddyJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                    
+                    //TODO: May need to separate the model out into different users?
+                    let memberElement = membersJSON.value as? [String: AnyObject]
+                    let typeName = memberElement?["Type"]
+                    let userName = memberElement?["Name"]
+                    let groupName = memberElement?["Group"]
+                    
+                    let member = Users(typeOfUser: typeName as! String?, userName: userName as! String?, groupName: groupName as! String?)
+                    
+                    self.buddyPickerData.append(member)
+                    
+                }
+    
+            }
+        }
+
+        
+        
         groupPickerData = ["Project X", "Project Y", "Project Z"]
         buddyPickerData = ["Sean", "Max", "Joe"]
+        
+        
+        typePickerData = ["Member of Artlink", "Buddy", "Artist"]
         
         
     }
@@ -82,6 +110,8 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
             return buddyPickerData[row]
         }
     }
+    
+    //TODO: If picker isn't moved then first element isnt selected!
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
@@ -145,55 +175,77 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
             let nameEmailField = "\(nameTxtField.text!)@artlink.co.uk"
             let passwordField = "\(passwordTxtField.text!)"
             
-            //checks that password is legit length (6), perform other checks such as surname etc
             Auth.auth().createUser(withEmail: nameEmailField, password: passwordField, completion: { (user, error) in
                 
-                if error == nil {
-                    
-                    let name = self.nameTxtField.text
-                    
-                    let ref = Database.database().reference()
-                    let usersRef = ref.child("users")
-                    let usersUIDRef = usersRef.child((user?.uid)!)
-                    let values = ["Type": self.type, "Name": name, "Group": self.groupName, "Buddy": self.buddyName]
-                    usersUIDRef.updateChildValues(values as Any as! [AnyHashable : Any], withCompletionBlock: { (error, ref) in
+                if passwordField.count > 6 {
+                    if error == nil {
                         
-                        if error == nil {
+                        
+                        let name = self.nameTxtField.text
+                        
+                        let ref = Database.database().reference()
+                        let usersRef = ref.child("users")
+                        let usersUIDRef = usersRef.child((user?.uid)!)
+                        let values = ["Type": self.type, "Name": name, "Group": self.groupName, "Buddy": self.buddyName]
+                        usersUIDRef.updateChildValues(values as Any as! [AnyHashable : Any], withCompletionBlock: { (error, ref) in
                             
-                            print("Saved Succesfully into Realtime Database")
-                        
-                        } else {
+                            if error == nil {
+                                
+                                print("Saved Succesfully into Realtime Database")
                             
-                            print(error!)
+                            } else {
+                                
+                                print(error!)
+                                
+                            }
                             
-                        }
+                            
+                        })
                         
                         
-                    })
-                    
-                    
+                    } else {
+                        
+                        //TODO: this gets dismissed quickly, put a delay in possibly
+                        let signupAlert = UIAlertController(title: "Error", message: "There was an error creating the user, please try again", preferredStyle: .alert)
+                        
+                        let signupAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                        
+                        signupAlert.addAction(signupAction)
+                        
+                        self.present(signupAlert, animated: true, completion: nil)
+                    }
                 } else {
                     
-                    //this gets dismissed quickly, put a delay in possibly
-                    let loginAlert = UIAlertController(title: "Error", message: "There was an error creating the user, please try again", preferredStyle: .alert)
+                    let passwordAlert = UIAlertController(title: "Error", message: "Password too short!", preferredStyle: .alert)
                     
-                    let loginAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    let passwordAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                     
-                    loginAlert.addAction(loginAction)
+                    passwordAlert.addAction(passwordAction)
                     
-                    self.present(loginAlert, animated: true, completion: nil)
+                    self.present(passwordAlert, animated: true, completion: nil)
+                    
                 }
-                
                 
             
             })
             
         }
         
-        //put some clause into this
+        //TODO: put some clause into this
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+            
+            self.dismiss(animated: true, completion: nil)
+        }
+    
+    }
+    
+    @IBAction func backButtonPressed(_ sender: Any) {
+        
         dismiss(animated: true, completion: nil)
         
     }
+    
+    
     
 }
 

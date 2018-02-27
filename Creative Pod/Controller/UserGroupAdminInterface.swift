@@ -7,6 +7,9 @@
 
 
 import UIKit
+import FirebaseDatabase
+import Firebase
+import FirebaseAuth
 
 class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -17,7 +20,9 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var nameListTableView: UITableView!
     
     var usersArray = [Users]()
-    var groupArray = [Groups]()    
+    var groupArray = [Groups]()
+    
+    let groupReference = Database.database().reference().child("groups")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,18 +32,57 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
         nameListTableView.delegate = self
         nameListTableView.dataSource = self
         
+        let membersReference = Database.database().reference().child("users")
         
-        let memberTest1 = Users(typeOfUser: "Member", userName: "John Adams", groupName: "Art World")
-        let memberTest2 = Users(typeOfUser: "Member", userName: "Paul Smith", groupName: "Reach Out")
-        let memberTest3 = Users(typeOfUser: "Artist", userName: "Adam Armani", groupName: "Reach Out")
-        let groupTest1 = Groups(groupName: "Art World")
-        let groupTest2 = Groups(groupName: "Reach Out")
+        membersReference.observe(DataEventType.value) { (snapshot) in
+            if snapshot.childrenCount > 0 {
+                
+                self.usersArray.removeAll()
+                
+                for membersJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                    
+                    //TODO: May need to separate the model out into different users?
+                    let memberElement = membersJSON.value as? [String: AnyObject]
+                    let typeName = memberElement?["Type"]
+                    let userName = memberElement?["Name"]
+                    let groupName = memberElement?["Group"]
+                    
+                    let member = Users(typeOfUser: typeName as! String?, userName: userName as! String?, groupName: groupName as! String?)
+                    
+                    self.usersArray.append(member)
+                    
+                }
+                
+                self.nameListTableView.reloadData()
+                
+            }
+        }
         
-        usersArray.append(memberTest1)
-        usersArray.append(memberTest2)
-        usersArray.append(memberTest3)
-        groupArray.append(groupTest1)
-        groupArray.append(groupTest2)
+        //TODO: PLACE INSIDE FUNCTION
+        let groupReference = Database.database().reference().child("groups")
+        
+        groupReference.observe(DataEventType.value) { (snapshot) in
+            if snapshot.childrenCount > 0 {
+                
+                self.groupArray.removeAll()
+                
+                for groupsNameJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                    
+                    //TODO: May need to separate the model out into different users?
+                    let groupElement = groupsNameJSON.value as? [String: AnyObject]
+                    let groupElementName = groupElement!["Group"]
+                    let group = Groups(groupName: groupElementName as! String)
+                    
+                    self.groupArray.append(group)
+                    
+                    print(self.groupArray)
+                    
+                }
+                
+                self.groupListTableView.reloadData()
+                
+            }
+        }
         
     }
     
@@ -133,7 +177,12 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
     
     @IBAction func backButton(_ sender: Any) {
         
+        //TODO: Not Working
+        try! Auth.auth().signOut()
+        
         dismiss(animated: true, completion: nil)
+        
+        print("Sign out successful")
         
     }
     
@@ -156,10 +205,53 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
          
             let groupField = alert?.textFields![0]
-            self.groupArray.append(Groups(groupName: (groupField?.text)!))
-            self.groupListTableView.reloadData()
-
+            
+            let ref = Database.database().reference()
+            let groupRef = ref.child("groups")
+            let groupRefKey = groupRef.childByAutoId()
+            let values = ["Group" : groupField?.text]
+            print(values)
+            print("Here I Am Lord")
+            groupRefKey.updateChildValues(values as Any as! [AnyHashable : Any], withCompletionBlock: { (error, ref) in
+                
+                if error == nil {
+                    
+                    print("Saved Succesfully into Realtime Database")
+                    
+                } else {
+                    
+                    print(error!)
+                    
+                }
+            })
+            
+            let groupReference = Database.database().reference().child("groups")
+            
+            groupReference.observe(DataEventType.value) { (snapshot) in
+                if snapshot.childrenCount > 0 {
+                    
+                    self.groupArray.removeAll()
+                    
+                    for groupsNameJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                        
+                        //TODO: May need to separate the model out into different users?
+                        let groupElement = groupsNameJSON.value as? [String: AnyObject]
+                        let groupElementName = groupElement!["Group"]
+                        let group = Groups(groupName: groupElementName as! String)
+                        
+                        self.groupArray.append(group)
+                        
+                        print(self.groupArray)
+                        
+                    }
+                    
+                    self.groupListTableView.reloadData()
+                    
+                }
+            }
+        
         }))
+        
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
