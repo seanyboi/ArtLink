@@ -46,6 +46,8 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                     let typeName = memberElement?["Type"]
                     let userName = memberElement?["Name"]
                     let groupName = memberElement?["Group"]
+                    print(typeName!)
+                    print(userName!)
                     
                     let member = Users(typeOfUser: typeName as! String?, userName: userName as! String?, groupName: groupName as! String?)
                     
@@ -75,7 +77,6 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                     
                     self.groupArray.append(group)
                     
-                    print(self.groupArray)
                     
                 }
                 
@@ -177,12 +178,17 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
     
     @IBAction func backButton(_ sender: Any) {
         
-        //TODO: Not Working
-        try! Auth.auth().signOut()
-        
-        dismiss(animated: true, completion: nil)
-        
-        print("Sign out successful")
+        do {
+            
+            try Auth.auth().signOut()
+            
+            dismiss(animated: true, completion: nil)
+            
+            print("Sign out successful")
+            
+        } catch {
+            print("Logout Error")
+        }
         
     }
     
@@ -210,8 +216,6 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
             let groupRef = ref.child("groups")
             let groupRefKey = groupRef.childByAutoId()
             let values = ["Group" : groupField?.text]
-            print(values)
-            print("Here I Am Lord")
             groupRefKey.updateChildValues(values as Any as! [AnyHashable : Any], withCompletionBlock: { (error, ref) in
                 
                 if error == nil {
@@ -241,7 +245,6 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                         
                         self.groupArray.append(group)
                         
-                        print(self.groupArray)
                         
                     }
                     

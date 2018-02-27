@@ -59,26 +59,47 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
                 for buddyJSON in snapshot.children.allObjects as! [DataSnapshot] {
                     
                     //TODO: May need to separate the model out into different users?
-                    let memberElement = membersJSON.value as? [String: AnyObject]
-                    let typeName = memberElement?["Type"]
-                    let userName = memberElement?["Name"]
-                    let groupName = memberElement?["Group"]
+                    let buddyElement = buddyJSON.value as? [String: AnyObject]
+                    let buddyName = buddyElement?["Name"]
+                    let typeName = buddyElement?["Type"]
+                    print(typeName!)
                     
-                    let member = Users(typeOfUser: typeName as! String?, userName: userName as! String?, groupName: groupName as! String?)
-                    
-                    self.buddyPickerData.append(member)
+                    if typeName as! String == "Buddy" {
+                        
+                        self.buddyPickerData.append(buddyName as! String)
+                        
+                    } else {
+                        
+                        //TODO: Change Error
+                        print("ERROR")
+                        
+                    }
                     
                 }
     
             }
         }
+        
+        let groupReference = Database.database().reference().child("groups")
+        
+        groupReference.observe(DataEventType.value) { (snapshot) in
+            if snapshot.childrenCount > 0 {
+                
+                self.groupPickerData.removeAll()
+                
+                for groupJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                    
+                    //TODO: May need to separate the model out into different users?
+                    let groupElement = groupJSON.value as? [String: AnyObject]
+                    let groupName = groupElement?["Group"]
+                    
+                    self.groupPickerData.append(groupName as! String)
 
-        
-        
-        groupPickerData = ["Project X", "Project Y", "Project Z"]
-        buddyPickerData = ["Sean", "Max", "Joe"]
-        
-        
+                }
+                
+            }
+        }
+
         typePickerData = ["Member of Artlink", "Buddy", "Artist"]
         
         
@@ -179,7 +200,6 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
                 
                 if passwordField.count > 6 {
                     if error == nil {
-                        
                         
                         let name = self.nameTxtField.text
                         
