@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class MemberMainInterface: UIViewController {
     
@@ -46,6 +49,18 @@ class MemberMainInterface: UIViewController {
     
     
     @IBAction func loggingOut(_ sender: Any) {
+        
+        do {
+            
+            try Auth.auth().signOut()
+            
+            dismiss(animated: true, completion: nil)
+            
+            print("Sign out successful")
+            
+        } catch {
+            print("Logout Error")
+        }
         
         dismiss(animated: true, completion: nil)
     }

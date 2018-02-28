@@ -24,6 +24,16 @@ class NameList: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    let currentUser = Auth.auth().currentUser?.uid
+    //let currentUserReference = Database.database().reference().child("users")
+    var name: String = ""
+    var group: String = ""
+    var typeName: String = ""
+    var membersBuddyName: String = ""
+    var membersName: String = ""
+    var membersTypeName: String = ""
+    var membersGroupName: String = ""
+    
     //TODO: Logic to Present Correct Members
     
     var membersArray = [Users]()
@@ -31,15 +41,77 @@ class NameList: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //MARK: This is a TEST
-        let memberTest1 = Users(typeOfUser: "Member", userName: "John Adams", groupName: "Art World")
-        let memberTest2 = Users(typeOfUser: "Member", userName: "Paul Smith", groupName: "Reach Out")
-        
-        membersArray.append(memberTest1)
-        membersArray.append(memberTest2)
-        
         membersTableView.delegate = self
         membersTableView.dataSource = self
+        
+        let currentUserReference = Database.database().reference().child("users")
+        let thisUserRef = currentUserReference.child((Auth.auth().currentUser?.uid)!)
+        
+        print("CURRENT USER \(currentUser!)")
+        
+        thisUserRef.observeSingleEvent(of: .value) { (snapshot) in
+            
+            //RETRIEVED CURRENT USERS NAME AND TYPE
+            let type = snapshot.value as? [String: AnyObject]
+            self.typeName = type!["Type"] as! String
+            self.name = type!["Name"] as! String
+            self.group = type!["Group"] as! String
+            print(self.name)
+            print(self.group)
+            print(self.typeName)
+
+        }
+        
+        currentUserReference.observe(DataEventType.value) { (snapshot) in
+            if snapshot.childrenCount > 0 {
+                
+                self.membersArray.removeAll()
+                
+                for memberJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                    
+                    let memberElement = memberJSON.value as? [String: AnyObject]
+                    self.membersBuddyName = memberElement?["Buddy"] as! String
+                    self.membersName = memberElement?["Name"] as! String
+                    self.membersTypeName = memberElement?["Type"] as! String
+                    self.membersGroupName = memberElement?["Group"] as! String
+                    
+                    if self.typeName == "Buddy" && self.name == self.membersBuddyName && self.membersTypeName == "Member of Artlink" {
+                        
+                        print(self.membersBuddyName)
+                        print(self.membersName)
+                        print(self.membersTypeName)
+                        print(self.membersGroupName)
+                        
+                        let nameListMember = Users(typeOfUser: self.membersTypeName, userName: self.membersName, groupName: self.membersGroupName)
+                        
+                        print(nameListMember.userName)
+                        
+                        self.membersArray.append(nameListMember)
+                        
+                    } else if self.typeName == "Artist" && self.groupName.groupName == self.membersGroupName && self.membersTypeName == "Member of Artlink" {
+                    
+                        let nameListMember = Users(typeOfUser: self.membersTypeName, userName: self.membersName, groupName: self.membersGroupName)
+                        self.membersArray.append(nameListMember)
+                        
+                    }
+                
+                }
+                
+                self.membersTableView.reloadData()
+            }
+        }
+        
+
+        //print(membersArray)
+        
+        //MARK: This is a TEST
+        //let memberTest1 = Users(typeOfUser: "Member", userName: "John Adams", groupName: "Art World")
+        //let memberTest2 = Users(typeOfUser: "Member", userName: "Paul Smith", groupName: "Reach Out")
+        
+        //membersArray.append(memberTest1)
+        //membersArray.append(memberTest2)
+        
+
     
     }
 

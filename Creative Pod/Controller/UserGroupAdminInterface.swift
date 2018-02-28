@@ -22,8 +22,6 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
     var usersArray = [Users]()
     var groupArray = [Groups]()
     
-    let groupReference = Database.database().reference().child("groups")
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

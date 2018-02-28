@@ -47,13 +47,22 @@ class MembersCreate: UIViewController, UINavigationControllerDelegate, UIImagePi
         
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         
-        imagePicker.dismiss(animated: true, completion: nil)
-        pictureTakenImg.image = info["UIImagePickerControllerOriginalImage"] as? UIImage
+        dismiss(animated: true, completion: nil)
         
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        print("Here I Am Lord")
+        
+        pictureTakenImg.image = info["UIImagePickerControllerOriginalImage"] as? UIImage
+        pictureTakenImg.contentMode = .scaleAspectFit
+        dismiss(animated: true, completion: nil)
+        
+        
+    }
     
     
     @IBAction func backButtonPressed(_ sender: Any) {

@@ -96,6 +96,9 @@ class LoginScreen: UIViewController {
             }
         }
         
+        nameLoginTxtField.text = ""
+        passwordLoginTxtField.text = ""
+        
 
     }
     

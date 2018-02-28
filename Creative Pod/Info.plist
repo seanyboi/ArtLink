@@ -47,5 +47,7 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Artlink Wish For You To Take A Picture!</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>TEST: grant access</string>
 </dict>
 </plist>
