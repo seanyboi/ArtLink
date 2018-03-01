@@ -12,9 +12,7 @@ class ImagesViewed: UIViewController {
     
     @IBOutlet weak var imageOfMember: UIImageView!
     
-    @IBOutlet weak var editUserBtn: UIButton!
-    
-    
+
     private var _image: Images!
     
     var memberImage: Images {

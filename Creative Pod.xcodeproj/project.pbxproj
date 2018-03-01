@@ -78,6 +78,48 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		146326802046DA3500144A42 /* Admin Controller */ = {
+			isa = PBXGroup;
+			children = (
+				149941D3203C3AF7004B1507 /* UserGroupAdminInterface.swift */,
+				149941D5203C3B3F004B1507 /* EditingUserGroupInterface.swift */,
+			);
+			path = "Admin Controller";
+			sourceTree = "<group>";
+		};
+		146326812046DA4900144A42 /* Member Controller */ = {
+			isa = PBXGroup;
+			children = (
+				149941CD203B65F6004B1507 /* MemberMainInterface.swift */,
+				149941CF203C2ECC004B1507 /* MembersCreate.swift */,
+			);
+			path = "Member Controller";
+			sourceTree = "<group>";
+		};
+		146326822046DA7E00144A42 /* Buddy Controller */ = {
+			isa = PBXGroup;
+			children = (
+				149941C7203B4C5E004B1507 /* NameList.swift */,
+			);
+			path = "Buddy Controller";
+			sourceTree = "<group>";
+		};
+		146326832046DA8900144A42 /* Artist Controller */ = {
+			isa = PBXGroup;
+			children = (
+				149941CB203B60F7004B1507 /* GroupList.swift */,
+			);
+			path = "Artist Controller";
+			sourceTree = "<group>";
+		};
+		146326842046DA9900144A42 /* Login Controller */ = {
+			isa = PBXGroup;
+			children = (
+				149941AE203B23AE004B1507 /* LoginScreen.swift */,
+			);
+			path = "Login Controller";
+			sourceTree = "<group>";
+		};
 		149941A0203B23AE004B1507 = {
 			isa = PBXGroup;
 			children = (
@@ -116,14 +158,12 @@
 		149941BE203B2A7C004B1507 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				149941AE203B23AE004B1507 /* LoginScreen.swift */,
-				149941C7203B4C5E004B1507 /* NameList.swift */,
+				146326842046DA9900144A42 /* Login Controller */,
+				146326832046DA8900144A42 /* Artist Controller */,
+				146326822046DA7E00144A42 /* Buddy Controller */,
+				146326812046DA4900144A42 /* Member Controller */,
+				146326802046DA3500144A42 /* Admin Controller */,
 				149941C9203B5317004B1507 /* MembersCreativePieces.swift */,
-				149941CB203B60F7004B1507 /* GroupList.swift */,
-				149941CD203B65F6004B1507 /* MemberMainInterface.swift */,
-				149941CF203C2ECC004B1507 /* MembersCreate.swift */,
-				149941D3203C3AF7004B1507 /* UserGroupAdminInterface.swift */,
-				149941D5203C3B3F004B1507 /* EditingUserGroupInterface.swift */,
 				14E068B42041EC5A00C265D4 /* ImagesViewed.swift */,
 			);
 			path = Controller;

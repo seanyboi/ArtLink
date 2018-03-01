@@ -14,6 +14,8 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
     
     private var _userName: Users!
     
+    //TODO: Possibly send through UID too if multiple same names
+    
     var userName: Users {
         get {
             return _userName
