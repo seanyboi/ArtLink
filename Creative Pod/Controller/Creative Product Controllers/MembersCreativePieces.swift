@@ -27,7 +27,7 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
     var imageURL: String = ""
     var memberUID: String = ""
     var currentUserType: String = ""
-        
+    
     var userName: Users {
         get {
             return _userName
@@ -76,7 +76,9 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
                                     self.sharedWithGroup = imageElement?["Shared With Group"] as! String
                                     self.imageURL = imageElement?["imageURL"] as! String
                                     
-                                    let imageModel = Images(imageID: self.imageURL, dated: self.dateStored, memberName: self.userName.userName)
+                                    let adjustedDateString = self.dateStored.replacingOccurrences(of: " +0000", with: "")
+                                    
+                                    let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
                                     
                                     self.imageArray.append(imageModel)
                                     

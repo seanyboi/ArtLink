@@ -757,13 +757,13 @@
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dated:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Wi-G5-Thb">
                                                             <rect key="frame" x="0.0" y="0.0" width="89" height="108"/>
-                                                            <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="20"/>
+                                                            <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="17"/>
                                                             <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23/12/2018 - 2pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RDE-57-sQA">
                                                             <rect key="frame" x="89" y="0.0" width="215" height="108"/>
-                                                            <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="20"/>
+                                                            <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="17"/>
                                                             <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>

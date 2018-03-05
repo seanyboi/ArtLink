@@ -22,7 +22,17 @@ class CreativeProductCell: UICollectionViewCell {
             if error == nil {
                 
                 DispatchQueue.main.async {
-                    self.creativeImg.image = UIImage(data: data!)
+                    
+                    let downloadedImage = UIImage(data: data!)
+                    
+                    UIGraphicsBeginImageContextWithOptions((downloadedImage?.size)!, false, (downloadedImage?.scale)!)
+                    let rectangle = CGRect(x: 0, y: 0, width: (downloadedImage?.size.width)!, height: (downloadedImage?.size.height)!)
+                    downloadedImage?.draw(in: rectangle)
+                    
+                    let orientatedImage = UIGraphicsGetImageFromCurrentImageContext()
+                    UIGraphicsEndImageContext()
+                    
+                    self.creativeImg.image = orientatedImage
                 }
                 
             } else {
