@@ -27,9 +27,27 @@ class ImagesViewed: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let imageURLConversion = URL(string: memberImage.imageID)
+        URLSession.shared.dataTask(with: imageURLConversion!, completionHandler: { (data, response, error) in
+            
+            if error == nil {
+                
+                DispatchQueue.main.async {
+                    self.imageOfMember.image = UIImage(data: data!)
+                }
+                
+            } else {
+                print(error as Any)
+                return
+            }
+            
+            
+            
+        }).resume()
         
         
-        imageOfMember.image = UIImage(named: "\(memberImage.imageID)")
+        
+        
         
         
     }
