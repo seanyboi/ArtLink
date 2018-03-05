@@ -16,11 +16,26 @@ class CreativeProductCell: UICollectionViewCell {
     
     func updateUI(image: Images) {
         
-        print(image.dated)
-        print(image.imageID)
-        print("Member is: \(image.memberName)")
-        
         datedLbl.text = image.dated
+        
+        let imageURLConversion = URL(string: image.imageID)
+        URLSession.shared.dataTask(with: imageURLConversion!, completionHandler: { (data, response, error) in
+            
+            if error == nil {
+                
+                DispatchQueue.async(group: DispatchQueue.main, execute: {
+                    self.creativeImg.image = UIImage(named: "\(image.imageID)")
+                })
+                
+            } else {
+                print(error)
+                return
+            }
+            
+            
+            
+        })
+        
         creativeImg.image = UIImage(named: "\(image.imageID)")
         
     }

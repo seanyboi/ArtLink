@@ -9,11 +9,11 @@ import Foundation
 
 class Images {
     
-    private var _imageID: Int!
+    private var _imageID: String!
     private var _dated: String!
     private var _memberName: String!
     
-    var imageID: Int {
+    var imageID: String {
         return _imageID
     }
     
@@ -26,7 +26,7 @@ class Images {
     }
     
     
-    init(imageID: Int!, dated: String!, memberName: String!) {
+    init(imageID: String!, dated: String!, memberName: String!) {
         
         _imageID = imageID
         _dated = dated

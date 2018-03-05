@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 
 class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -24,6 +25,7 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
     var sharedWithBuddy: String = ""
     var sharedWithGroup: String = ""
     var imageURL: String = ""
+    var memberUID: String = ""
     
     //TODO: Possibly send through UID too if multiple same names
     
@@ -56,37 +58,45 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
                 
                 for membersJSON in snapshot.children.allObjects as! [DataSnapshot] {
                     
+                    self.imageArray.removeAll()
+                    self.memberUID = membersJSON.key
+                    
                     //TODO: May need to separate the model out into different users?
                     let memberElement = membersJSON.value as? [String: AnyObject]
                     self.memberNameStored = memberElement?["Name"] as! String
                     
-                    let imageReference = Database.database().reference().child("images").child("\(membersJSON.key)")
+                    if self.userName.userName == self.memberNameStored {
                     
-                    imageReference.observe(DataEventType.value) { (snapshot) in
-                        if snapshot.childrenCount > 0 {
-                            
-                            for imagesJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                        let imageReference = Database.database().reference().child("images").child("\(self.memberUID)")
+                    
+                        imageReference.observe(DataEventType.value) { (snapshot) in
+                            if snapshot.childrenCount > 0 {
                                 
-                                let imageElement = imagesJSON.value as? [String: AnyObject]
-                                self.dateStored = imageElement?["Date"] as! String
-                                self.keptPrivate = imageElement?["Kept Private"] as! String
-                                self.sharedWithBuddy = imageElement?["Shared With Buddy"] as! String
-                                self.sharedWithGroup = imageElement?["Shared With Group"] as! String
-                                self.imageURL = imageElement?["imageURL"] as! String
+                                for imagesJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                                    
+                                    let imageElement = imagesJSON.value as? [String: AnyObject]
+                                    self.dateStored = imageElement?["Date"] as! String
+                                    self.keptPrivate = imageElement?["Kept Private"] as! String
+                                    self.sharedWithBuddy = imageElement?["Shared With Buddy"] as! String
+                                    self.sharedWithGroup = imageElement?["Shared With Group"] as! String
+                                    self.imageURL = imageElement?["imageURL"] as! String
+                                    
+                                    let imageModel = Images(imageID: self.imageURL, dated: self.dateStored, memberName: self.memberNameStored)
+                                    
+                                    self.imageArray.append(imageModel)
+                                    
+                                }
                                 
-                                print(self.dateStored)
-                                print(self.imageURL)
+                                
+                                
+                            } else {
+                                
+                                //TODO: return empty collection view cell
                                 
                             }
-                            
-                            
-                            
-                        } else {
-                            
-                            //TODO: return empty collection view cell
-                            
                         }
                     }
+
                 }
                 
                 self.membersCollectionView.reloadData()
@@ -102,7 +112,6 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
             
                 let imageCell = imageArray[indexPath.row]
                 cell.updateUI(image: imageCell)
-                //print(cell)
             
                 return cell
             

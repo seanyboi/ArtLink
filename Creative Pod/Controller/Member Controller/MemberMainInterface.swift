@@ -27,28 +27,19 @@ class MemberMainInterface: UIViewController {
     @IBAction func viewDesigns(_ sender: Any) {
         
         self.memberArray.removeAll()
-        
-        print("Here i am Lord")
-        
+    
         let currentUserID = Auth.auth().currentUser?.uid
         let currentUserReference = Database.database().reference().child("users")
         let thisUserRef = currentUserReference.child(currentUserID!)
         
         thisUserRef.observeSingleEvent(of: .value) { (snapshot) in
             
-            print("Here I Am Lord 2")
-            
             //RETRIEVED CURRENT USERS NAME AND TYPE
             let type = snapshot.value as? [String: AnyObject]
             self.typeName = type!["Type"] as! String
             self.memberName = type!["Name"] as! String
             self.groupName = type!["Group"] as! String
-            
-            print(self.memberName)
-            print(self.typeName)
-            print(self.groupName)
         
-            
             let nameListMember = Users(typeOfUser: self.typeName, userName: self.memberName, groupName: self.groupName)
 
             self.memberArray.append(nameListMember)
