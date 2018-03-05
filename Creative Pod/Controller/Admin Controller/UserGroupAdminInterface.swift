@@ -44,9 +44,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                     let typeName = memberElement?["Type"]
                     let userName = memberElement?["Name"]
                     let groupName = memberElement?["Group"]
-                    print(typeName!)
-                    print(userName!)
-                    
+    
                     let member = Users(typeOfUser: typeName as! String?, userName: userName as! String?, groupName: groupName as! String?)
                     
                     self.usersArray.append(member)

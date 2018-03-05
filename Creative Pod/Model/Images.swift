@@ -26,7 +26,7 @@ class Images {
     }
     
     
-    init(imageID: String!, dated: String!, memberName: String!) {
+    init(imageID: String, dated: String, memberName: String) {
         
         _imageID = imageID
         _dated = dated

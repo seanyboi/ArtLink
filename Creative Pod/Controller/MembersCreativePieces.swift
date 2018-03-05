@@ -26,9 +26,8 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
     var sharedWithGroup: String = ""
     var imageURL: String = ""
     var memberUID: String = ""
-    
-    //TODO: Possibly send through UID too if multiple same names
-    
+    var currentUserType: String = ""
+        
     var userName: Users {
         get {
             return _userName
@@ -43,27 +42,22 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //TODO: Check if type is member 
         membersNameLbl.text = userName.userName
-        
-        membersCollectionView.delegate = self
-        membersCollectionView.dataSource = self
         
         let membersReference = Database.database().reference().child("users")
         
         membersReference.observe(DataEventType.value) { (snapshot) in
             if snapshot.childrenCount > 0 {
                 
-                //self.usersArray.removeAll()
-                
+                self.imageArray.removeAll()
+            
                 for membersJSON in snapshot.children.allObjects as! [DataSnapshot] {
                     
-                    self.imageArray.removeAll()
                     self.memberUID = membersJSON.key
                     
-                    //TODO: May need to separate the model out into different users?
                     let memberElement = membersJSON.value as? [String: AnyObject]
                     self.memberNameStored = memberElement?["Name"] as! String
+                    self.currentUserType = memberElement?["Type"] as! String
                     
                     if self.userName.userName == self.memberNameStored {
                     
@@ -71,6 +65,7 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
                     
                         imageReference.observe(DataEventType.value) { (snapshot) in
                             if snapshot.childrenCount > 0 {
+                                
                                 
                                 for imagesJSON in snapshot.children.allObjects as! [DataSnapshot] {
                                     
@@ -81,28 +76,26 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
                                     self.sharedWithGroup = imageElement?["Shared With Group"] as! String
                                     self.imageURL = imageElement?["imageURL"] as! String
                                     
-                                    let imageModel = Images(imageID: self.imageURL, dated: self.dateStored, memberName: self.memberNameStored)
+                                    let imageModel = Images(imageID: self.imageURL, dated: self.dateStored, memberName: self.userName.userName)
                                     
                                     self.imageArray.append(imageModel)
                                     
                                 }
                                 
-                                
-                                
-                            } else {
-                                
-                                //TODO: return empty collection view cell
-                                
+                                self.membersCollectionView.reloadData()
+                        
                             }
                         }
                     }
 
                 }
-                
-                self.membersCollectionView.reloadData()
-                
+            
             }
         }
+        
+        membersCollectionView.delegate = self
+        membersCollectionView.dataSource = self
+        
     }
     
     

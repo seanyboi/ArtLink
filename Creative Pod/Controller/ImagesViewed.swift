@@ -27,6 +27,8 @@ class ImagesViewed: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
         imageOfMember.image = UIImage(named: "\(memberImage.imageID)")
         
         

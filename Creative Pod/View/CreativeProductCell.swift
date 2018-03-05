@@ -12,8 +12,6 @@ class CreativeProductCell: UICollectionViewCell {
     @IBOutlet weak var creativeImg: UIImageView!
     @IBOutlet weak var datedLbl: UILabel!
     
-    //ONLY IF IMAGE IS SAVED AS A NUMBER
-    
     func updateUI(image: Images) {
         
         datedLbl.text = image.dated
@@ -23,20 +21,21 @@ class CreativeProductCell: UICollectionViewCell {
             
             if error == nil {
                 
-                DispatchQueue.async(group: DispatchQueue.main, execute: {
-                    self.creativeImg.image = UIImage(named: "\(image.imageID)")
-                })
+                DispatchQueue.main.async {
+                    self.creativeImg.image = UIImage(data: data!)
+                }
                 
             } else {
-                print(error)
+                print(error as Any)
                 return
             }
             
             
             
-        })
+        }).resume()
         
         creativeImg.image = UIImage(named: "\(image.imageID)")
+        creativeImg.contentMode = .scaleAspectFill
         
     }
     
