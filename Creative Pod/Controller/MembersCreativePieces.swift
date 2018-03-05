@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -13,6 +16,14 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
     @IBOutlet weak var membersNameLbl: UILabel!
     
     private var _userName: Users!
+    
+    var imagesOfUserUID: String = ""
+    var memberNameStored: String = ""
+    var dateStored: String = ""
+    var keptPrivate: String = ""
+    var sharedWithBuddy: String = ""
+    var sharedWithGroup: String = ""
+    var imageURL: String = ""
     
     //TODO: Possibly send through UID too if multiple same names
     
@@ -36,13 +47,52 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
         membersCollectionView.delegate = self
         membersCollectionView.dataSource = self
         
-        let memberImage1 = Images(imageID: 1, dated: "24/02/2018 - 4pm", memberName: "John Adams")
-        let memberImage2 = Images(imageID: 2, dated: "25/02/2018 - 5pm", memberName: "Paul Smith")
-        imageArray.append(memberImage1)
-        imageArray.append(memberImage2)
+        let membersReference = Database.database().reference().child("users")
         
-        print(imageArray)
-        
+        membersReference.observe(DataEventType.value) { (snapshot) in
+            if snapshot.childrenCount > 0 {
+                
+                //self.usersArray.removeAll()
+                
+                for membersJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                    
+                    //TODO: May need to separate the model out into different users?
+                    let memberElement = membersJSON.value as? [String: AnyObject]
+                    self.memberNameStored = memberElement?["Name"] as! String
+                    
+                    let imageReference = Database.database().reference().child("images").child("\(membersJSON.key)")
+                    
+                    imageReference.observe(DataEventType.value) { (snapshot) in
+                        if snapshot.childrenCount > 0 {
+                            
+                            for imagesJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                                
+                                let imageElement = imagesJSON.value as? [String: AnyObject]
+                                self.dateStored = imageElement?["Date"] as! String
+                                self.keptPrivate = imageElement?["Kept Private"] as! String
+                                self.sharedWithBuddy = imageElement?["Shared With Buddy"] as! String
+                                self.sharedWithGroup = imageElement?["Shared With Group"] as! String
+                                self.imageURL = imageElement?["imageURL"] as! String
+                                
+                                print(self.dateStored)
+                                print(self.imageURL)
+                                
+                            }
+                            
+                            
+                            
+                        } else {
+                            
+                            //TODO: return empty collection view cell
+                            
+                        }
+                    }
+                }
+                
+                self.membersCollectionView.reloadData()
+                
+            }
+        }
     }
     
     
@@ -52,7 +102,7 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
             
                 let imageCell = imageArray[indexPath.row]
                 cell.updateUI(image: imageCell)
-                print(cell)
+                //print(cell)
             
                 return cell
             
