@@ -44,6 +44,16 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
         
         membersNameLbl.text = userName.userName
         
+        let currentUserReference = Database.database().reference().child("users").child((Auth.auth().currentUser?.uid)!)
+        
+        currentUserReference.observeSingleEvent(of: .value) { (snapshot) in
+            
+            //RETRIEVED CURRENT TYPE
+            let type = snapshot.value as? [String: AnyObject]
+            self.currentUserType = type!["Type"] as! String
+
+        }
+        
         let membersReference = Database.database().reference().child("users")
         
         membersReference.observe(DataEventType.value) { (snapshot) in
@@ -57,7 +67,7 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
                     
                     let memberElement = membersJSON.value as? [String: AnyObject]
                     self.memberNameStored = memberElement?["Name"] as! String
-                    self.currentUserType = memberElement?["Type"] as! String
+                    //self.currentUserType = memberElement?["Type"] as! String
                     
                     if self.userName.userName == self.memberNameStored {
                     
@@ -78,9 +88,33 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
                                     
                                     let adjustedDateString = self.dateStored.replacingOccurrences(of: " +0000", with: "")
                                     
-                                    let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
                                     
-                                    self.imageArray.append(imageModel)
+                                    if self.sharedWithBuddy == "Access Granted" && self.currentUserType == "Buddy" {
+                                        
+                                        
+                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
+                                        self.imageArray.append(imageModel)
+                                        
+                                    } else if self.sharedWithGroup == "Access Granted" && self.currentUserType == "Artist" {
+                                        
+                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
+                                        self.imageArray.append(imageModel)
+                                        
+                                    } else if self.keptPrivate == "Access Granted" && self.currentUserType == "Member of Artlink" {
+                                        
+                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
+                                        self.imageArray.append(imageModel)
+                                        
+                                    } else if self.currentUserType == "Admin" {
+                                        
+                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
+                                        self.imageArray.append(imageModel)
+                                        
+                                    } else {
+                                        
+                                        return
+                                        
+                                    }
                                     
                                 }
                                 

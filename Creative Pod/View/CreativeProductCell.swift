@@ -40,6 +40,8 @@ class CreativeProductCell: UICollectionViewCell {
             
         }
         
+        //ACTIVITY INDICATORS CODE ADAPTED SO IT IS YOUR OWN
+        
         let imageURLConversion = URL(string: image.imageID)
         URLSession.shared.dataTask(with: imageURLConversion!, completionHandler: { (data, response, error) in
             

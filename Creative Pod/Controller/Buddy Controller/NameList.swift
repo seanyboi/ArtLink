@@ -58,10 +58,6 @@ class NameList: UIViewController, UITableViewDelegate, UITableViewDataSource {
             self.typeName = type!["Type"] as! String
             self.name = type!["Name"] as! String
             self.group = type!["Group"] as! String
-            print(self.name)
-            print(self.group)
-            print(self.typeName)
-
         }
         
         currentUserReference.observe(DataEventType.value) { (snapshot) in
