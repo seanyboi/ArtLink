@@ -91,7 +91,7 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
                                     
                                     if self.sharedWithBuddy == "Access Granted" && self.currentUserType == "Buddy" {
                                         
-                                        
+                                        print("Here i am Lord")
                                         let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
                                         self.imageArray.append(imageModel)
                                         
@@ -110,11 +110,9 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
                                         let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
                                         self.imageArray.append(imageModel)
                                         
-                                    } else {
-                                        
-                                        return
-                                        
                                     }
+                                    
+                                    print(self.imageArray.count)
                                     
                                 }
                                 

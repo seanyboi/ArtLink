@@ -27,7 +27,7 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         let currentUserReference = Database.database().reference().child("users")
         let thisUserRef = currentUserReference.child((Auth.auth().currentUser?.uid)!)
-        
+    
         print("CURRENT USER \(currentUser!)")
         
         groupTableView.delegate = self

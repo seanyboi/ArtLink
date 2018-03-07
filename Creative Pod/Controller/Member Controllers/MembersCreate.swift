@@ -152,7 +152,7 @@ class MembersCreate: UIViewController, UINavigationControllerDelegate, UIImagePi
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         pictureTakenImg.image = info["UIImagePickerControllerOriginalImage"] as? UIImage
-        pictureTakenImg.contentMode = .scaleToFill
+        pictureTakenImg.contentMode = .scaleAspectFill
         dismiss(animated: true, completion: nil)
         
         shareWithBtn.isHidden = false

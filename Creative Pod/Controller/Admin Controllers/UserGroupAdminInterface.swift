@@ -22,6 +22,8 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
     var usersArray = [Users]()
     var groupArray = [Groups]()
     
+    var memberUID: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,6 +31,13 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
         groupListTableView.dataSource = self
         nameListTableView.delegate = self
         nameListTableView.dataSource = self
+        
+        pullUserData()
+        pullGroupData()
+    
+    }
+    
+    func pullUserData() {
         
         let membersReference = Database.database().reference().child("users")
         
@@ -39,12 +48,11 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                 
                 for membersJSON in snapshot.children.allObjects as! [DataSnapshot] {
                     
-                    //TODO: May need to separate the model out into different users?
                     let memberElement = membersJSON.value as? [String: AnyObject]
                     let typeName = memberElement?["Type"]
                     let userName = memberElement?["Name"]
                     let groupName = memberElement?["Group"]
-    
+                    
                     let member = Users(typeOfUser: typeName as! String?, userName: userName as! String?, groupName: groupName as! String?)
                     
                     self.usersArray.append(member)
@@ -55,8 +63,10 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                 
             }
         }
+    }
+    
+    func pullGroupData() {
         
-        //TODO: PLACE INSIDE FUNCTION
         let groupReference = Database.database().reference().child("groups")
         
         groupReference.observe(DataEventType.value) { (snapshot) in
@@ -66,13 +76,11 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                 
                 for groupsNameJSON in snapshot.children.allObjects as! [DataSnapshot] {
                     
-                    //TODO: May need to separate the model out into different users?
                     let groupElement = groupsNameJSON.value as? [String: AnyObject]
                     let groupElementName = groupElement!["Group"]
                     let group = Groups(groupName: groupElementName as! String)
                     
                     self.groupArray.append(group)
-                    
                     
                 }
                 
@@ -80,6 +88,67 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                 
             }
         }
+        
+        
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            if tableView.tag == 1 {
+                
+                let groupOfDeletion = self.groupArray[indexPath.row]
+                self.groupArray.remove(at: indexPath.row)
+                groupListTableView.deleteRows(at: [indexPath], with: .fade)
+                
+            } else if tableView.tag == 2 {
+                
+                let nameOfDeletion = self.usersArray[indexPath.row]
+                self.usersArray.remove(at: indexPath.row)
+                nameListTableView.deleteRows(at: [indexPath], with: .fade)
+                
+                let membersReference = Database.database().reference().child("users")
+                
+                membersReference.observe(DataEventType.value) { (snapshot) in
+                    if snapshot.childrenCount > 0 {
+                        
+                        for membersJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                            
+                            self.memberUID = membersJSON.key
+                            
+                            let memberElement = membersJSON.value as? [String: AnyObject]
+                            let userName = memberElement?["Name"] as! String
+                            
+                            if nameOfDeletion.userName == userName {
+                                
+                                if Auth.auth().currentUser?.uid == self.memberUID {
+                                
+                                    let deleteAlert = UIAlertController(title: "Error", message: "Cannot Remove Your Own User", preferredStyle: .alert)
+                                    
+                                    let deleteAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                    
+                                    deleteAlert.addAction(deleteAction)
+                                    
+                                    self.present(deleteAlert, animated: true, completion: nil)
+                                    
+                                    
+                                } else {
+                                    
+                                    membersReference.child(self.memberUID).removeValue()
+                                    
+                                }
+                            
+                            }
+
+                        }
+                        
+                    }
+                }
+                
+            }
+
+        }
+        
         
     }
     
@@ -253,8 +322,6 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
         
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        //TODO: Add code for uploading to the database once inserted.
         
         self.present(alert, animated: true, completion: nil)
         
