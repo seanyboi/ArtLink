@@ -23,6 +23,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
     var groupArray = [Groups]()
     
     var memberUID: String = ""
+    var currentUserID: String = (Auth.auth().currentUser?.uid)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,14 +50,31 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                 for membersJSON in snapshot.children.allObjects as! [DataSnapshot] {
                     
                     let memberElement = membersJSON.value as? [String: AnyObject]
-                    let typeName = memberElement?["Type"]
-                    let userName = memberElement?["Name"]
-                    let groupName = memberElement?["Group"]
+                    let typeName = memberElement?["Type"] as! String
+                    let userName = memberElement?["Name"] as! String
+                    let groupName = memberElement?["Group"] as! String
                     
-                    let member = Users(typeOfUser: typeName as! String?, userName: userName as! String?, groupName: groupName as! String?)
+                    switch typeName {
+                        
+                    case "Member of Artlink":
+                        let member = Users(typeOfUser: typeName, userName: userName, groupName: groupName)
+                        self.usersArray.append(member)
+                        
+                    case "Artist":
+                        let member = Users(typeOfUser: typeName, userName: userName, groupName: groupName)
+                        self.usersArray.append(member)
                     
-                    self.usersArray.append(member)
+                    case "Buddy":
+                        let member = Users(typeOfUser: typeName, userName: userName, groupName: groupName)
+                        self.usersArray.append(member)
+                        
+                    case "Admin":
+                        continue
                     
+                    default:
+                        return
+                    }
+        
                 }
                 
                 self.nameListTableView.reloadData()
@@ -104,6 +122,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
             } else if tableView.tag == 2 {
                 
                 let nameOfDeletion = self.usersArray[indexPath.row]
+                
                 self.usersArray.remove(at: indexPath.row)
                 nameListTableView.deleteRows(at: [indexPath], with: .fade)
                 
@@ -121,35 +140,27 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                             
                             if nameOfDeletion.userName == userName {
                                 
-                                if Auth.auth().currentUser?.uid == self.memberUID {
-                                
-                                    let deleteAlert = UIAlertController(title: "Error", message: "Cannot Remove Your Own User", preferredStyle: .alert)
+                                membersReference.child(self.memberUID).removeValue()
+
+                                let deleteAlert = UIAlertController(title: "User Deleted", message: "\(userName) Has Been Deleted", preferredStyle: .alert)
                                     
-                                    let deleteAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                let deleteAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                                     
-                                    deleteAlert.addAction(deleteAction)
+                                deleteAlert.addAction(deleteAction)
                                     
-                                    self.present(deleteAlert, animated: true, completion: nil)
-                                    
-                                    
-                                } else {
-                                    
-                                    membersReference.child(self.memberUID).removeValue()
-                                    
-                                }
+                                self.present(deleteAlert, animated: true, completion: nil)
                             
                             }
-
+                            
                         }
-                        
-                    }
-                }
-                
-            }
 
+                    }
+                        
+                }
+            }
+                
         }
-        
-        
+
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
