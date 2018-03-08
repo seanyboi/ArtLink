@@ -23,6 +23,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
     var groupArray = [Groups]()
     
     var memberUID: String = ""
+    var groupUID: String = ""
     var currentUserID: String = (Auth.auth().currentUser?.uid)!
     
     override func viewDidLoad() {
@@ -110,58 +111,106 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        if editingStyle == .delete {
-            if tableView.tag == 1 {
-                
-                let groupOfDeletion = self.groupArray[indexPath.row]
-                self.groupArray.remove(at: indexPath.row)
-                groupListTableView.deleteRows(at: [indexPath], with: .fade)
-                
-            } else if tableView.tag == 2 {
-                
-                let nameOfDeletion = self.usersArray[indexPath.row]
-                
-                self.usersArray.remove(at: indexPath.row)
-                nameListTableView.deleteRows(at: [indexPath], with: .fade)
-                
-                let membersReference = Database.database().reference().child("users")
-                
-                membersReference.observe(DataEventType.value) { (snapshot) in
-                    if snapshot.childrenCount > 0 {
+                let deleting = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+                    
+                    if tableView.tag == 1 {
                         
-                        for membersJSON in snapshot.children.allObjects as! [DataSnapshot] {
-                            
-                            self.memberUID = membersJSON.key
-                            
-                            let memberElement = membersJSON.value as? [String: AnyObject]
-                            let userName = memberElement?["Name"] as! String
-                            
-                            if nameOfDeletion.userName == userName {
+                        let groupOfDeletion = self.groupArray[indexPath.row]
+                        
+                        self.groupArray.remove(at: indexPath.row)
+                        self.groupListTableView.deleteRows(at: [indexPath], with: .fade)
+                        
+                        let groupReference = Database.database().reference().child("groups")
+                        
+                        groupReference.observe(DataEventType.value) { (snapshot) in
+                            if snapshot.childrenCount > 0 {
                                 
-                                membersReference.child(self.memberUID).removeValue()
-
-                                let deleteAlert = UIAlertController(title: "User Deleted", message: "\(userName) Has Been Deleted", preferredStyle: .alert)
+                                for groupsNameJSON in snapshot.children.allObjects as! [DataSnapshot] {
                                     
-                                let deleteAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                    self.groupUID = groupsNameJSON.key
                                     
-                                deleteAlert.addAction(deleteAction)
+                                    let groupElement = groupsNameJSON.value as? [String: AnyObject]
+                                    let groupElementName = groupElement!["Group"] as! String
                                     
-                                self.present(deleteAlert, animated: true, completion: nil)
-                            
+                                    //TODO: IF TIME REMOVE ALL GROUP FROM PEOPLE
+                                    if groupOfDeletion.groupName == groupElementName {
+                                        
+                                        groupReference.child(self.groupUID).removeValue()
+                                        
+                                        let deleteAlert = UIAlertController(title: "Group Deleted", message: "\(groupElementName) Has Been Deleted", preferredStyle: .alert)
+                                        
+                                        let deleteAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                        
+                                        deleteAlert.addAction(deleteAction)
+                                        
+                                        self.present(deleteAlert, animated: true, completion: nil)
+                                        
+                                    }
+                                    
+                                    
+                                }
+                                
+                                self.groupListTableView.reloadData()
+                                
+                            }
+                        }
+                        
+                    }else if tableView.tag == 2 {
+                        
+                        let nameOfDeletion = self.usersArray[indexPath.row]
+                        
+                        self.usersArray.remove(at: indexPath.row)
+                        self.nameListTableView.deleteRows(at: [indexPath], with: .fade)
+                        
+                        let membersReference = Database.database().reference().child("users")
+                        
+                        membersReference.observe(DataEventType.value) { (snapshot) in
+                            if snapshot.childrenCount > 0 {
+                                
+                                for membersJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                                    
+                                    self.memberUID = membersJSON.key
+                                    
+                                    let memberElement = membersJSON.value as? [String: AnyObject]
+                                    let userName = memberElement?["Name"] as! String
+                                    
+                                    if nameOfDeletion.userName == userName {
+                                        
+                                        membersReference.child(self.memberUID).removeValue()
+                                        
+                                        let deleteAlert = UIAlertController(title: "User Deleted", message: "\(userName) Has Been Deleted", preferredStyle: .alert)
+                                        
+                                        let deleteAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                        
+                                        deleteAlert.addAction(deleteAction)
+                                        
+                                        self.present(deleteAlert, animated: true, completion: nil)
+                                        
+                                    }
+                                    
+                                }
+                                
                             }
                             
                         }
-
                     }
-                        
+
                 }
-            }
-                
+        
+        let editing = UITableViewRowAction(style: .normal, title: "Edit User") { (action, indexPath) in 
+            
+            print("Editing User")
+            
+        }
+            
+        editing.backgroundColor = UIColor.green
+        
+        
+            return [deleting, editing]
         }
 
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
