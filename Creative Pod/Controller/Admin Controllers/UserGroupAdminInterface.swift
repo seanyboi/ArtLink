@@ -118,6 +118,8 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                 let deletingGroup = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
                     
                         let groupOfDeletion = self.groupArray[indexPath.row]
+                    
+                        print(groupOfDeletion.groupName)
                         
                         self.groupArray.remove(at: indexPath.row)
                         self.groupListTableView.deleteRows(at: [indexPath], with: .fade)
