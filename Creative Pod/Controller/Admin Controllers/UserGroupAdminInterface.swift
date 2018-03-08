@@ -113,10 +113,10 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-                let deleting = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+        if tableView.tag == 1 {
+            
+                let deletingGroup = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
                     
-                    if tableView.tag == 1 {
-                        
                         let groupOfDeletion = self.groupArray[indexPath.row]
                         
                         self.groupArray.remove(at: indexPath.row)
@@ -156,9 +156,14 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                                 
                             }
                         }
-                        
-                    }else if tableView.tag == 2 {
-                        
+                    }
+            
+                    return [deletingGroup]
+            
+                } else if tableView.tag == 2 {
+            
+                    let deletingUser = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            
                         let nameOfDeletion = self.usersArray[indexPath.row]
                         
                         self.usersArray.remove(at: indexPath.row)
@@ -196,19 +201,20 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                             
                         }
                     }
-
+            
+                let editingUser = UITableViewRowAction(style: .normal, title: "Edit User") { (action, indexPath) in
+                
+                    print("Editing User")
+                
+                }
+            
+                    editingUser.backgroundColor = UIColor.green
+            
+                    return [deletingUser, editingUser]
                 }
         
-        let editing = UITableViewRowAction(style: .normal, title: "Edit User") { (action, indexPath) in 
-            
-            print("Editing User")
-            
-        }
-            
-        editing.backgroundColor = UIColor.green
-        
-        
-            return [deleting, editing]
+            return [UITableViewRowAction.init()]
+
         }
 
     
