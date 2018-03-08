@@ -206,7 +206,8 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
             
                 let editingUser = UITableViewRowAction(style: .normal, title: "Edit User") { (action, indexPath) in
                 
-                    print("Editing User")
+                    let memberName = self.usersArray[indexPath.row]
+                    self.performSegue(withIdentifier: "EditingUsers", sender: memberName)
                 
                 }
             
@@ -218,6 +219,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
             return [UITableViewRowAction.init()]
 
         }
+    
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -299,12 +301,21 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
         
        if let destination = segue.destination as? MembersCreativePieces {
             
-            if let user = sender as? Users {
+            if let userName = sender as? Users {
                 
-                destination.userName  = user
+                destination.userName  = userName
                 
             }
         }
+    
+    if let destination = segue.destination as? EditingUserInterface {
+        
+        if let userName = sender as? Users {
+            
+            destination.userName  = userName
+            
+        }
+    }
         
     }
     

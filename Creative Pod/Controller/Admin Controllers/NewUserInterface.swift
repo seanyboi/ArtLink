@@ -12,7 +12,7 @@ import Firebase
 
 
 
-class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class NewUserInterface: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var buddyLbl: UILabel!
     
@@ -32,10 +32,16 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
     
     @IBOutlet weak var passwordTxtField: UITextField!
     
+    @IBOutlet weak var emailLbl: UILabel!
+    
+    @IBOutlet weak var emailTxtField: UITextField!
+    
     var type: String = ""
     var name: String = ""
+    var email: String = ""
     var groupName: String = ""
     var buddyName: String = ""
+    var nameEmailField: String = ""
     
     var ref: DatabaseReference!
     
@@ -132,7 +138,7 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
         }
     }
     
-    //TODO: If picker isn't moved then first element isnt selected!
+    //TODO: If picker isn't moved then first element isnt selected!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
@@ -144,12 +150,16 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
                 
                 buddyPicker.isHidden = true
                 buddyLbl.isHidden = true
+                emailLbl.isHidden = false
+                emailTxtField.isHidden = false
+                
                 type = typeValue
                 
             } else if typeValue == "Member of Artlink" {
                 
                 buddyPicker.isHidden = false
                 buddyLbl.isHidden = false
+
                 type = typeValue
             
             } else {
@@ -193,20 +203,37 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
             
         } else {
             
-            let nameEmailField = "\(nameTxtField.text!)@artlink.co.uk"
+            if type == "Member of Artlink" {
+                
+                nameEmailField = "\(nameTxtField.text!)@artlink.co.uk"
+                
+            } else {
+                
+                nameEmailField = self.emailTxtField.text!
+                
+            }
+            
             let passwordField = "\(passwordTxtField.text!)"
             
             Auth.auth().createUser(withEmail: nameEmailField, password: passwordField, completion: { (user, error) in
                 
+                print(self.nameEmailField)
+                
+                
                 if passwordField.count > 6 {
+                    
                     if error == nil {
                         
                         let name = self.nameTxtField.text
                         
+                        //TODO: Check valid email.
+                        
+                        let email = self.emailTxtField.text
+                        
                         let ref = Database.database().reference()
                         let usersRef = ref.child("users")
                         let usersUIDRef = usersRef.child((user?.uid)!)
-                        let values = ["Type": self.type, "Name": name, "Group": self.groupName, "Buddy": self.buddyName]
+                        let values = ["Type": self.type, "Name": name, "Group": self.groupName, "Buddy": self.buddyName, "Email": email]
                         usersUIDRef.updateChildValues(values as Any as! [AnyHashable : Any], withCompletionBlock: { (error, ref) in
                             
                             if error == nil {
@@ -225,12 +252,7 @@ class EditingUserGroupInterface: UIViewController, UIPickerViewDelegate, UIPicke
                         
                     } else {
                         
-                        //TODO: this gets dismissed quickly, put a delay in possibly
                         let signupAlert = UIAlertController(title: "Error", message: "There was an error creating the user, please try again", preferredStyle: .alert)
-                        
-                        let signupAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                        
-                        signupAlert.addAction(signupAction)
                         
                         self.present(signupAlert, animated: true, completion: nil)
                     }
