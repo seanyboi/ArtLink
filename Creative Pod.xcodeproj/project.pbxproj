@@ -16,7 +16,9 @@
 		14335D62203F11E8005F3768 /* AdminGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14335D61203F11E8005F3768 /* AdminGroupCell.swift */; };
 		14335D64203F3082005F3768 /* CreativeProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14335D63203F3082005F3768 /* CreativeProductCell.swift */; };
 		14335D66203F3126005F3768 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14335D65203F3126005F3768 /* Images.swift */; };
+		1462A599205415EA0008BC11 /* StoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1462A598205415EA0008BC11 /* StoryCell.swift */; };
 		1463267F2042E2CD00144A42 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1463267E2042E2CD00144A42 /* GoogleService-Info.plist */; };
+		146DBC1D2052E83900F3E055 /* CreationOfStoryboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146DBC1C2052E83900F3E055 /* CreationOfStoryboard.swift */; };
 		149941AD203B23AE004B1507 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149941AC203B23AE004B1507 /* AppDelegate.swift */; };
 		149941AF203B23AE004B1507 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149941AE203B23AE004B1507 /* LoginScreen.swift */; };
 		149941B2203B23AE004B1507 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 149941B0203B23AE004B1507 /* Main.storyboard */; };
@@ -45,7 +47,9 @@
 		14335D61203F11E8005F3768 /* AdminGroupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminGroupCell.swift; sourceTree = "<group>"; };
 		14335D63203F3082005F3768 /* CreativeProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreativeProductCell.swift; sourceTree = "<group>"; };
 		14335D65203F3126005F3768 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		1462A598205415EA0008BC11 /* StoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCell.swift; sourceTree = "<group>"; };
 		1463267E2042E2CD00144A42 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		146DBC1C2052E83900F3E055 /* CreationOfStoryboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreationOfStoryboard.swift; sourceTree = "<group>"; };
 		149941A9203B23AE004B1507 /* Creative Pod.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Creative Pod.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		149941AC203B23AE004B1507 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		149941AE203B23AE004B1507 /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
@@ -120,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				149941CB203B60F7004B1507 /* GroupList.swift */,
+				146DBC1C2052E83900F3E055 /* CreationOfStoryboard.swift */,
 			);
 			path = "Artist Controller";
 			sourceTree = "<group>";
@@ -189,6 +194,7 @@
 				14335D5F203F11D8005F3768 /* AdminUsersCell.swift */,
 				14335D61203F11E8005F3768 /* AdminGroupCell.swift */,
 				14335D63203F3082005F3768 /* CreativeProductCell.swift */,
+				1462A598205415EA0008BC11 /* StoryCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -373,6 +379,7 @@
 				149941CC203B60F7004B1507 /* GroupList.swift in Sources */,
 				14335D62203F11E8005F3768 /* AdminGroupCell.swift in Sources */,
 				149941C8203B4C5E004B1507 /* NameList.swift in Sources */,
+				1462A599205415EA0008BC11 /* StoryCell.swift in Sources */,
 				14E068B52041EC5A00C265D4 /* ImagesViewed.swift in Sources */,
 				149941AF203B23AE004B1507 /* LoginScreen.swift in Sources */,
 				149941C5203B33E0004B1507 /* RoundedButton.swift in Sources */,
@@ -384,6 +391,7 @@
 				149941CE203B65F6004B1507 /* MemberMainInterface.swift in Sources */,
 				149941AD203B23AE004B1507 /* AppDelegate.swift in Sources */,
 				1420CB85203EEE410011717A /* Groups.swift in Sources */,
+				146DBC1D2052E83900F3E055 /* CreationOfStoryboard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

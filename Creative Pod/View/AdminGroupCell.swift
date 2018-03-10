@@ -19,13 +19,11 @@ class AdminGroupCell: UITableViewCell {
     
     func updateUI(groupsName: Groups) {
         
-        //TODO:
-        
-        //if memberName.typeOfUser == "Member" {
+
         
         adminGroupLbl.text = groupsName.groupName
         
-        //}
+
         
         
         

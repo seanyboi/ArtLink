@@ -20,13 +20,10 @@ class GroupListCell: UITableViewCell {
     
     func updateUI(groupsName: Groups) {
         
-        //TODO:
-        
-        //if memberName.typeOfUser == "Member" {
         
         groupNameLbl.text = groupsName.groupName
         
-        //}
+
         
         
         

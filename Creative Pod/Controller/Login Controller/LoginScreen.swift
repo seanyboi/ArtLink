@@ -87,6 +87,9 @@ class LoginScreen: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        nameLoginTxtField.text = ""
+        passwordLoginTxtField.text = ""
     
         Auth.auth().addStateDidChangeListener { auth, user in
             if user != nil {
@@ -95,11 +98,7 @@ class LoginScreen: UIViewController {
                 print("User is signed out.")
             }
         }
-        
-        nameLoginTxtField.text = ""
-        passwordLoginTxtField.text = ""
-        
-
+    
     }
     
 

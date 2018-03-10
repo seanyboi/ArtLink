@@ -20,14 +20,11 @@ class AdminUsersCell: UITableViewCell {
     
     func updateUI(usersName: Users) {
         
-        //TODO:
-        
-        //if memberName.typeOfUser == "Member" {
+  
         
         adminUsersLbl.text = usersName.userName
         adminUserTypeLbl.text = usersName.typeOfUser
-        
-        //}
+
         
     }
 

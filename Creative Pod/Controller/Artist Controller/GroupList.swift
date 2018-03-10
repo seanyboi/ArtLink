@@ -15,6 +15,8 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var groupTableView: UITableView!
     
+    @IBOutlet weak var storiesTableView: UITableView!
+    
     var groupArray = [Groups]()
     
     let currentUser = Auth.auth().currentUser?.uid
@@ -97,6 +99,12 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
             }
         }
+        
+    }
+    @IBAction func creatingNewStoryBtn(_ sender: Any) {
+        
+            performSegue(withIdentifier: "CreatingNewStory", sender: nil)
+        
         
     }
     

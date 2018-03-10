@@ -20,13 +20,9 @@ class NameListCell: UITableViewCell {
     
     func updateUI(usersName: Users) {
      
-        //TODO:
-        
-        //if memberName.typeOfUser == "Member" {
             
         memberName.text = usersName.userName
 
-        //}
         
         
         

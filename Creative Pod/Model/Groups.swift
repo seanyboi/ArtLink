@@ -16,15 +16,10 @@ class Groups {
         return _groupName
     }
     
-    //var groupUID: String {
-        //return _groupUID
-    //}
-    
     
     init(groupName: String) {
         
         _groupName = groupName
-        //_groupUID = groupUID
         
     }
     

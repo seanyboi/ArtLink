@@ -68,8 +68,7 @@ class NewUserInterface: UIViewController, UIPickerViewDelegate, UIPickerViewData
                     let buddyElement = buddyJSON.value as? [String: AnyObject]
                     let buddyName = buddyElement?["Name"]
                     let typeName = buddyElement?["Type"]
-                    print(typeName!)
-                    
+
                     if typeName as! String == "Buddy" {
                         
                         self.buddyPickerData.append(buddyName as! String)
@@ -77,7 +76,7 @@ class NewUserInterface: UIViewController, UIPickerViewDelegate, UIPickerViewData
                     } else {
                         
                         //TODO: Change Error
-                        print("ERROR")
+
                         
                     }
                     
@@ -159,6 +158,8 @@ class NewUserInterface: UIViewController, UIPickerViewDelegate, UIPickerViewData
                 
                 buddyPicker.isHidden = false
                 buddyLbl.isHidden = false
+                emailLbl.isHidden = true
+                emailTxtField.isHidden = true
 
                 type = typeValue
             
@@ -203,13 +204,16 @@ class NewUserInterface: UIViewController, UIPickerViewDelegate, UIPickerViewData
             
         } else {
             
+            //TODO: Check valid email.
             if type == "Member of Artlink" {
                 
                 nameEmailField = "\(nameTxtField.text!)@artlink.co.uk"
+                email = ""
                 
             } else {
                 
                 nameEmailField = self.emailTxtField.text!
+                email = nameEmailField
                 
             }
             
@@ -217,23 +221,16 @@ class NewUserInterface: UIViewController, UIPickerViewDelegate, UIPickerViewData
             
             Auth.auth().createUser(withEmail: nameEmailField, password: passwordField, completion: { (user, error) in
                 
-                print(self.nameEmailField)
-                
-                
                 if passwordField.count > 6 {
                     
                     if error == nil {
                         
                         let name = self.nameTxtField.text
-                        
-                        //TODO: Check valid email.
-                        
-                        let email = self.emailTxtField.text
-                        
+                    
                         let ref = Database.database().reference()
                         let usersRef = ref.child("users")
                         let usersUIDRef = usersRef.child((user?.uid)!)
-                        let values = ["Type": self.type, "Name": name, "Group": self.groupName, "Buddy": self.buddyName, "Email": email]
+                        let values = ["Type": self.type, "Name": name, "Group": self.groupName, "Buddy": self.buddyName, "Email": self.email]
                         usersUIDRef.updateChildValues(values as Any as! [AnyHashable : Any], withCompletionBlock: { (error, ref) in
                             
                             if error == nil {
