@@ -23,10 +23,6 @@ class GroupListCell: UITableViewCell {
         
         groupNameLbl.text = groupsName.groupName
         
-
-        
-        
-        
     }
 
     

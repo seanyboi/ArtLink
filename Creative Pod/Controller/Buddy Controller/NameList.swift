@@ -137,6 +137,7 @@ class NameList: UIViewController, UITableViewDelegate, UITableViewDataSource {
             if let member = sender as? Users {
                 
                 destination.userName = member
+                destination.viewControllerCameFrom = "NameList"
             }
         }
     

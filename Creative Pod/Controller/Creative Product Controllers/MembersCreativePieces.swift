@@ -16,7 +16,9 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
     @IBOutlet weak var membersCollectionView: UICollectionView!
     @IBOutlet weak var membersNameLbl: UILabel!
     
-    private var _userName: Users!
+    //private var _userName: Users!
+    
+    private var _groupName: Groups!
     
     var imagesOfUserUID: String = ""
     var memberNameStored: String = ""
@@ -28,11 +30,23 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
     var memberUID: String = ""
     var currentUserType: String = ""
     
-    var userName: Users {
+    var viewControllerCameFrom: String = ""
+    
+    var userName: Users = Users(typeOfUser: "", userName: "", groupName: "")
+    
+//    var userName: Users {
+//        get {
+//            return _userName
+//        } set {
+//            _userName = newValue
+//        }
+//    }
+    
+    var groupName: Groups {
         get {
-            return _userName
+            return _groupName
         } set {
-            _userName = newValue
+            _groupName = newValue
         }
     }
     
@@ -42,7 +56,23 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        membersNameLbl.text = userName.userName
+        //DETERMINE WHAT SCREEN WAS PREVIOUS
+        
+        if viewControllerCameFrom == "NameList" {
+            
+            membersNameLbl.text = userName.userName
+            
+        } else if viewControllerCameFrom == "CreationOfStoryboard" {
+            
+            membersNameLbl.text = groupName.groupName
+            
+        } else {
+            
+            membersNameLbl.text = userName.userName
+            
+        }
+        
+
         
         let currentUserReference = Database.database().reference().child("users").child((Auth.auth().currentUser?.uid)!)
         

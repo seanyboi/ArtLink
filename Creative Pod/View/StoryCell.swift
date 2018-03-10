@@ -11,12 +11,18 @@ class StoryCell: UITableViewCell {
 
     @IBOutlet weak var storyNameLbl: UILabel!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
+    
+    func updateUI(groupName: Groups) {
+    
+        storyNameLbl.text = groupName.groupName
+        
+        
+    }
 
 
 }

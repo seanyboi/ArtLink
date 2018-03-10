@@ -23,14 +23,13 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var typeName: String = ""
     var name: String = ""
     var group: String = ""
+    var groupNameOfArtist: Groups = Groups(groupName: "")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let currentUserReference = Database.database().reference().child("users")
         let thisUserRef = currentUserReference.child((Auth.auth().currentUser?.uid)!)
-    
-        print("CURRENT USER \(currentUser!)")
         
         groupTableView.delegate = self
         groupTableView.dataSource = self
@@ -42,9 +41,6 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
             self.typeName = type!["Type"] as! String
             self.name = type!["Name"] as! String
             self.group = type!["Group"] as! String
-            print(self.name)
-            print(self.group)
-            print(self.typeName)
             
             let groupNameForArtist = Groups(groupName: self.group)
             
@@ -83,9 +79,7 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let groupName = groupArray[indexPath.row]
-        
-        performSegue(withIdentifier: "ViewMembersInGroup", sender: groupName)
+        performSegue(withIdentifier: "ViewMembersInGroup", sender: groupArray[indexPath.row])
         
     }
     
@@ -100,12 +94,34 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
             }
         }
         
+        if let destination = segue.destination as? CreationOfStoryboard {
+            
+            if let groupName = sender as? Groups {
+                
+                destination.groupName = groupName
+                
+            }
+        }
+        
     }
     @IBAction func creatingNewStoryBtn(_ sender: Any) {
         
-            performSegue(withIdentifier: "CreatingNewStory", sender: nil)
-        
-        
+        let currentUserReference = Database.database().reference().child("users")
+        let thisUserRef = currentUserReference.child((Auth.auth().currentUser?.uid)!)
+    
+        thisUserRef.observeSingleEvent(of: .value) { (snapshot) in
+            
+            //RETRIEVED CURRENT USERS NAME AND TYPE
+            
+            let type = snapshot.value as? [String: AnyObject]
+            self.group = type!["Group"] as! String
+            
+            self.groupNameOfArtist = Groups(groupName: self.group)
+            
+            self.performSegue(withIdentifier: "CreatingNewStory", sender: self.groupNameOfArtist)
+            
+        }
+    
     }
     
     @IBAction func loggingOut(_ sender: Any) {
@@ -119,6 +135,7 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
             print("Sign out successful")
             
         } catch {
+            
             print("Logout Error")
         }
 
