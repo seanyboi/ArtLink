@@ -390,6 +390,16 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rAQ-ob-KQq">
+                                <rect key="frame" x="10" y="0.0" width="45" height="46"/>
+                                <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="17"/>
+                                <state key="normal" title="BACK">
+                                    <color key="titleColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="backBtn:" destination="rGB-fD-C3b" eventType="touchUpInside" id="qnW-lW-ezy"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -397,10 +407,12 @@
                             <constraint firstItem="vYb-ug-kDl" firstAttribute="top" secondItem="FEL-7w-zFD" secondAttribute="top" constant="15" id="AaI-Al-agl"/>
                             <constraint firstItem="7xx-gv-Rje" firstAttribute="leading" secondItem="FEL-7w-zFD" secondAttribute="leading" constant="10" id="DBZ-nQ-t0o"/>
                             <constraint firstItem="FEL-7w-zFD" firstAttribute="trailing" secondItem="7xx-gv-Rje" secondAttribute="trailing" constant="10" id="NFO-8u-MSw"/>
+                            <constraint firstItem="rAQ-ob-KQq" firstAttribute="leading" secondItem="FEL-7w-zFD" secondAttribute="leading" constant="10" id="Pyh-OV-6sL"/>
                             <constraint firstItem="FEL-7w-zFD" firstAttribute="bottom" secondItem="7xx-gv-Rje" secondAttribute="bottom" constant="20" id="b1Y-FG-Fet"/>
                             <constraint firstItem="FEL-7w-zFD" firstAttribute="trailing" secondItem="mu8-zX-2s6" secondAttribute="trailing" constant="10" id="beZ-GY-nsr"/>
                             <constraint firstItem="7xx-gv-Rje" firstAttribute="top" secondItem="mu8-zX-2s6" secondAttribute="bottom" constant="20" id="fCh-Bm-Pq5"/>
                             <constraint firstItem="mu8-zX-2s6" firstAttribute="leading" secondItem="FEL-7w-zFD" secondAttribute="leading" constant="10" id="mNY-Ww-jvz"/>
+                            <constraint firstItem="rAQ-ob-KQq" firstAttribute="top" secondItem="PxX-lL-KKU" secondAttribute="top" id="spn-qP-EWM"/>
                             <constraint firstItem="mu8-zX-2s6" firstAttribute="top" secondItem="vYb-ug-kDl" secondAttribute="bottom" constant="20" id="wv2-Vw-rW2"/>
                             <constraint firstItem="FEL-7w-zFD" firstAttribute="trailing" secondItem="vYb-ug-kDl" secondAttribute="trailing" constant="10" id="yTS-r3-tbj"/>
                         </constraints>
@@ -1315,6 +1327,7 @@
                         <outlet property="membersCollectionView" destination="ogB-mQ-ron" id="cQO-QY-FEc"/>
                         <outlet property="membersNameLbl" destination="Ian-wz-eyC" id="KYc-J0-b2Z"/>
                         <segue destination="v3J-Gq-OGY" kind="showDetail" identifier="ImageOfMemberViewed" id="I5y-lq-3Q2"/>
+                        <segue destination="vfU-Fa-5f3" kind="showDetail" identifier="PictureSelected" id="AWM-uG-bNj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OnC-tm-B4q" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1547,6 +1560,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="cP0-fp-rFH"/>
+        <segue reference="AWM-uG-bNj"/>
         <segue reference="8K8-8f-Rdu"/>
     </inferredMetricsTieBreakers>
 </document>

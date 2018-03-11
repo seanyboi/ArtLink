@@ -22,6 +22,7 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
     
     var imagesOfUserUID: String = ""
     var memberNameStored: String = ""
+    var groupNameStored: String = ""
     var dateStored: String = ""
     var keptPrivate: String = ""
     var sharedWithBuddy: String = ""
@@ -61,97 +62,18 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
         if viewControllerCameFrom == "NameList" {
             
             membersNameLbl.text = userName.userName
+            loadingUserImages()
             
         } else if viewControllerCameFrom == "CreationOfStoryboard" {
             
             membersNameLbl.text = groupName.groupName
+            loadingAllImages()
             
         } else {
             
             membersNameLbl.text = userName.userName
+            loadingUserImages()
             
-        }
-        
-
-        
-        let currentUserReference = Database.database().reference().child("users").child((Auth.auth().currentUser?.uid)!)
-        
-        currentUserReference.observeSingleEvent(of: .value) { (snapshot) in
-            
-            //RETRIEVED CURRENT TYPE
-            let type = snapshot.value as? [String: AnyObject]
-            self.currentUserType = type!["Type"] as! String
-
-        }
-        
-        let membersReference = Database.database().reference().child("users")
-        
-        membersReference.observe(DataEventType.value) { (snapshot) in
-            if snapshot.childrenCount > 0 {
-                
-                self.imageArray.removeAll()
-            
-                for membersJSON in snapshot.children.allObjects as! [DataSnapshot] {
-                    
-                    self.memberUID = membersJSON.key
-                    
-                    let memberElement = membersJSON.value as? [String: AnyObject]
-                    self.memberNameStored = memberElement?["Name"] as! String
-                    //self.currentUserType = memberElement?["Type"] as! String
-                    
-                    if self.userName.userName == self.memberNameStored {
-                    
-                        let imageReference = Database.database().reference().child("images").child("\(self.memberUID)")
-                    
-                        imageReference.observe(DataEventType.value) { (snapshot) in
-                            if snapshot.childrenCount > 0 {
-                                
-                                
-                                for imagesJSON in snapshot.children.allObjects as! [DataSnapshot] {
-                                    
-                                    let imageElement = imagesJSON.value as? [String: AnyObject]
-                                    self.dateStored = imageElement?["Date"] as! String
-                                    self.keptPrivate = imageElement?["Kept Private"] as! String
-                                    self.sharedWithBuddy = imageElement?["Shared With Buddy"] as! String
-                                    self.sharedWithGroup = imageElement?["Shared With Group"] as! String
-                                    self.imageURL = imageElement?["imageURL"] as! String
-                                    
-                                    let adjustedDateString = self.dateStored.replacingOccurrences(of: " +0000", with: "")
-                                    
-                                    
-                                    if self.sharedWithBuddy == "Access Granted" && self.currentUserType == "Buddy" {
-                                    
-                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
-                                        self.imageArray.append(imageModel)
-                                        
-                                    } else if self.sharedWithGroup == "Access Granted" && self.currentUserType == "Artist" {
-                                        
-                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
-                                        self.imageArray.append(imageModel)
-                                        
-                                    } else if self.keptPrivate == "Access Granted" && self.currentUserType == "Member of Artlink" {
-                                        
-                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
-                                        self.imageArray.append(imageModel)
-                                        
-                                    } else if self.currentUserType == "Admin" {
-                                        
-                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
-                                        self.imageArray.append(imageModel)
-                                        
-                                    }
-                                    
-                                }
-                                
-                                self.membersCollectionView.reloadData()
-                        
-                            }
-                        }
-                    }
-
-                }
-            
-            }
         }
         
         membersCollectionView.delegate = self
@@ -180,8 +102,22 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let imageSelected = imageArray[indexPath.row]
-        performSegue(withIdentifier: "ImageOfMemberViewed", sender: imageSelected)
+        if viewControllerCameFrom == "NameList" {
+        
+            let imageSelected = imageArray[indexPath.row]
+            performSegue(withIdentifier: "ImageOfMemberViewed", sender: imageSelected)
+            
+        } else if viewControllerCameFrom == "CreationOfStoryboard" {
+            
+            let groupIdentifier = Groups(groupName: membersNameLbl.text!)
+            performSegue(withIdentifier: "PictureSelected", sender: groupIdentifier)
+            
+        } else {
+            
+            let imageSelected = imageArray[indexPath.row]
+            performSegue(withIdentifier: "ImageOfMemberViewed", sender: imageSelected)
+            
+        }
         
         
     }
@@ -196,6 +132,16 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
                 
             }
         }
+        
+        if let destination = segue.destination as? CreationOfStoryboard {
+            
+            if let groupName = sender as? Groups {
+                
+                destination.groupName = groupName
+                
+            }
+        }
+
         
     }
     
@@ -221,5 +167,177 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
         dismiss(animated: true, completion: nil)
         
     }
+    
+    
+    func loadingAllImages() {
+        
+        let currentUserReference = Database.database().reference().child("users").child((Auth.auth().currentUser?.uid)!)
+        
+        currentUserReference.observeSingleEvent(of: .value) { (snapshot) in
+            
+            //RETRIEVED CURRENT TYPE
+            let type = snapshot.value as? [String: AnyObject]
+            self.currentUserType = type!["Type"] as! String
+            
+        }
+        
+        let membersReference = Database.database().reference().child("users")
+        
+        membersReference.observe(DataEventType.value) { (snapshot) in
+            if snapshot.childrenCount > 0 {
+                
+                self.imageArray.removeAll()
+                
+                for membersJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                    
+                    self.memberUID = membersJSON.key
+                    
+                    let memberElement = membersJSON.value as? [String: AnyObject]
+                    self.groupNameStored = memberElement?["Group"] as! String
+                    
+                    if self.groupName.groupName == self.groupNameStored {
+                        
+                        let imageReference = Database.database().reference().child("images").child("\(self.memberUID)")
+                        
+                        imageReference.observe(DataEventType.value) { (snapshot) in
+                            if snapshot.childrenCount > 0 {
+                                
+                                
+                                for imagesJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                                    
+                                    let imageElement = imagesJSON.value as? [String: AnyObject]
+                                    self.dateStored = imageElement?["Date"] as! String
+                                    self.keptPrivate = imageElement?["Kept Private"] as! String
+                                    self.sharedWithBuddy = imageElement?["Shared With Buddy"] as! String
+                                    self.sharedWithGroup = imageElement?["Shared With Group"] as! String
+                                    self.imageURL = imageElement?["imageURL"] as! String
+                                    
+                                    let adjustedDateString = self.dateStored.replacingOccurrences(of: " +0000", with: "")
+                                    
+                                    if self.sharedWithBuddy == "Access Granted" && self.currentUserType == "Buddy" {
+                                        
+                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
+                                        self.imageArray.append(imageModel)
+                                        
+                                    } else if self.sharedWithGroup == "Access Granted" && self.currentUserType == "Artist" {
+                                        
+                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
+                                        self.imageArray.append(imageModel)
+                                        
+                                    } else if self.keptPrivate == "Access Granted" && self.currentUserType == "Member of Artlink" {
+                                        
+                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
+                                        self.imageArray.append(imageModel)
+                                        
+                                    } else if self.currentUserType == "Admin" {
+                                        
+                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
+                                        self.imageArray.append(imageModel)
+                                        
+                                    }
+                                    
+                                }
+                                
+                                self.membersCollectionView.reloadData()
+                                
+                            }
+                        }
+                    }
+                    
+                }
+                
+            }
+        }
+        
+        
+        
+        
+    }
+    
+    
+    func loadingUserImages() {
+        
+        let currentUserReference = Database.database().reference().child("users").child((Auth.auth().currentUser?.uid)!)
+        
+        currentUserReference.observeSingleEvent(of: .value) { (snapshot) in
+            
+            //RETRIEVED CURRENT TYPE
+            let type = snapshot.value as? [String: AnyObject]
+            self.currentUserType = type!["Type"] as! String
+            
+        }
+        
+        let membersReference = Database.database().reference().child("users")
+        
+        membersReference.observe(DataEventType.value) { (snapshot) in
+            if snapshot.childrenCount > 0 {
+                
+                self.imageArray.removeAll()
+                
+                for membersJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                    
+                    self.memberUID = membersJSON.key
+                    
+                    let memberElement = membersJSON.value as? [String: AnyObject]
+                    self.memberNameStored = memberElement?["Name"] as! String
+                    
+                    if self.userName.userName == self.memberNameStored {
+                        
+                        let imageReference = Database.database().reference().child("images").child("\(self.memberUID)")
+                        
+                        imageReference.observe(DataEventType.value) { (snapshot) in
+                            if snapshot.childrenCount > 0 {
+                                
+                                
+                                for imagesJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                                    
+                                    let imageElement = imagesJSON.value as? [String: AnyObject]
+                                    self.dateStored = imageElement?["Date"] as! String
+                                    self.keptPrivate = imageElement?["Kept Private"] as! String
+                                    self.sharedWithBuddy = imageElement?["Shared With Buddy"] as! String
+                                    self.sharedWithGroup = imageElement?["Shared With Group"] as! String
+                                    self.imageURL = imageElement?["imageURL"] as! String
+                                    
+                                    let adjustedDateString = self.dateStored.replacingOccurrences(of: " +0000", with: "")
+                                    
+                                    
+                                    if self.sharedWithBuddy == "Access Granted" && self.currentUserType == "Buddy" {
+                                        
+                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
+                                        self.imageArray.append(imageModel)
+                                        
+                                    } else if self.sharedWithGroup == "Access Granted" && self.currentUserType == "Artist" {
+                                        
+                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
+                                        self.imageArray.append(imageModel)
+                                        
+                                    } else if self.keptPrivate == "Access Granted" && self.currentUserType == "Member of Artlink" {
+                                        
+                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
+                                        self.imageArray.append(imageModel)
+                                        
+                                    } else if self.currentUserType == "Admin" {
+                                        
+                                        let imageModel = Images(imageID: self.imageURL, dated: adjustedDateString, memberName: self.userName.userName)
+                                        self.imageArray.append(imageModel)
+                                        
+                                    }
+                                    
+                                }
+                                
+                                self.membersCollectionView.reloadData()
+                                
+                            }
+                        }
+                    }
+                    
+                }
+                
+            }
+        }
+        
+        
+    }
+    
     
 }

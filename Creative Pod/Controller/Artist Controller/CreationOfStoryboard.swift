@@ -59,6 +59,9 @@ class CreationOfStoryboard: UIViewController {
         super.viewDidLoad()
   
         self.groupNameStored = groupName.groupName
+        
+        print(groupNameStored)
+        
         self.imageArray.append(image1)
         self.imageArray.append(image2)
         self.imageArray.append(image3)

@@ -12,7 +12,6 @@ class ImagesViewed: UIViewController {
     
     @IBOutlet weak var imageOfMember: UIImageView!
     
-
     private var _image: Images!
     
     var memberImage: Images {
