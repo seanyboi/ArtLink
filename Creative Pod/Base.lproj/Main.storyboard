@@ -268,7 +268,7 @@
                                                         <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="mRp-lQ-Yrt">
+                                                    <imageView tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="mRp-lQ-Yrt">
                                                         <rect key="frame" x="53.5" y="44" width="300" height="260"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="300" id="Uhn-bD-acR"/>
@@ -297,7 +297,7 @@
                                                         <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="eca-y9-6FT">
+                                                    <imageView tag="2" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="eca-y9-6FT">
                                                         <rect key="frame" x="53.5" y="44" width="300" height="260"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="300" id="CcT-E0-5zF"/>
@@ -331,7 +331,7 @@
                                                         <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="OTw-aZ-wnM">
+                                                    <imageView tag="3" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="OTw-aZ-wnM">
                                                         <rect key="frame" x="53.5" y="44" width="300" height="260"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="260" id="aRD-mr-Tmd"/>
@@ -363,7 +363,7 @@
                                                         <color key="textColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="XVb-hj-bvs">
+                                                    <imageView tag="4" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="XVb-hj-bvs">
                                                         <rect key="frame" x="53.5" y="44" width="300" height="260"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="300" id="VlN-Dm-zIz"/>

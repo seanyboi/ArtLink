@@ -98,6 +98,7 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             if let groupName = sender as? Groups {
                 
+                destination.destinationCameFrom = "GroupList"
                 destination.groupName = groupName
                 
             }

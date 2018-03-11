@@ -35,29 +35,14 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
     
     var userName: Users = Users(typeOfUser: "", userName: "", groupName: "")
     
-//    var userName: Users {
-//        get {
-//            return _userName
-//        } set {
-//            _userName = newValue
-//        }
-//    }
-    
-    var groupName: Groups {
-        get {
-            return _groupName
-        } set {
-            _groupName = newValue
-        }
-    }
+    var storySelection: StorySelection = StorySelection(groupName: "", imageSelected: 0)
+
+    var groupName: Groups = Groups(groupName: "")
     
     var imageArray = [Images]()
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //DETERMINE WHAT SCREEN WAS PREVIOUS
         
         if viewControllerCameFrom == "NameList" {
             
@@ -66,8 +51,9 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
             
         } else if viewControllerCameFrom == "CreationOfStoryboard" {
             
-            membersNameLbl.text = groupName.groupName
+            membersNameLbl.text = storySelection.groupName
             loadingAllImages()
+ 
             
         } else {
             
@@ -109,8 +95,32 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
             
         } else if viewControllerCameFrom == "CreationOfStoryboard" {
             
-            let groupIdentifier = Groups(groupName: membersNameLbl.text!)
-            performSegue(withIdentifier: "PictureSelected", sender: groupIdentifier)
+            if storySelection.imageSelected == 1 {
+                
+                let imageSelected = imageArray[indexPath.row]
+                let imageSelectedSent = ImageSelected(imageID: imageSelected.imageID, imageTag: storySelection.imageSelected, groupName: membersNameLbl.text!)
+                performSegue(withIdentifier: "PictureSelected", sender: imageSelectedSent)
+                
+            } else if storySelection.imageSelected == 2 {
+                
+                let imageSelected = imageArray[indexPath.row]
+                let imageSelectedSent = ImageSelected(imageID: imageSelected.imageID, imageTag: storySelection.imageSelected, groupName: membersNameLbl.text!)
+                performSegue(withIdentifier: "PictureSelected", sender: imageSelectedSent)
+                
+            } else if storySelection.imageSelected == 3 {
+                
+                let imageSelected = imageArray[indexPath.row]
+                let imageSelectedSent = ImageSelected(imageID: imageSelected.imageID, imageTag: storySelection.imageSelected, groupName: membersNameLbl.text!)
+                performSegue(withIdentifier: "PictureSelected", sender: imageSelectedSent)
+                
+            }else if storySelection.imageSelected == 4 {
+                
+                let imageSelected = imageArray[indexPath.row]
+                let imageSelectedSent = ImageSelected(imageID: imageSelected.imageID, imageTag: storySelection.imageSelected, groupName: membersNameLbl.text!)
+                performSegue(withIdentifier: "PictureSelected", sender: imageSelectedSent)
+                
+            }
+
             
         } else {
             
@@ -133,11 +143,13 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
             }
         }
         
+        //TODO:
         if let destination = segue.destination as? CreationOfStoryboard {
             
-            if let groupName = sender as? Groups {
+            if let imageTouched = sender as? ImageSelected {
                 
-                destination.groupName = groupName
+                destination.destinationCameFrom = "MembersCreativePieces"
+                destination.imageSelectedPassed = imageTouched
                 
             }
         }
@@ -195,7 +207,7 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
                     let memberElement = membersJSON.value as? [String: AnyObject]
                     self.groupNameStored = memberElement?["Group"] as! String
                     
-                    if self.groupName.groupName == self.groupNameStored {
+                    if self.storySelection.groupName == self.groupNameStored {
                         
                         let imageReference = Database.database().reference().child("images").child("\(self.memberUID)")
                         
@@ -253,6 +265,8 @@ class MembersCreativePieces: UIViewController, UICollectionViewDelegate, UIColle
         
         
     }
+    
+    
     
     
     func loadingUserImages() {

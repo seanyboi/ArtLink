@@ -11,6 +11,7 @@ import Foundation
 
 class Stories {
     
+    private var _groupName: String!
     private var _image1: String!
     private var _image2: String!
     private var _image3: String!
@@ -19,6 +20,10 @@ class Stories {
     private var _image2Text: String!
     private var _image3Text: String!
     private var _image4Text: String!
+    
+    var groupName: String {
+        return _groupName
+    }
     
     var image1: String {
         return _image1
@@ -46,7 +51,9 @@ class Stories {
         return _image4Text
     }
     
-    init(image1: String, image2: String, image3: String, image4: String, image1Text: String, image2Text: String, image3Text: String, image4Text: String ) {
+    init(groupName: String, image1: String, image2: String, image3: String, image4: String, image1Text: String, image2Text: String, image3Text: String, image4Text: String ) {
+        
+        _groupName = groupName
         
         _image1 = image1
         _image2 = image2

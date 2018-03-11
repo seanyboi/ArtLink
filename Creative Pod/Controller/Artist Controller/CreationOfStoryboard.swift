@@ -17,15 +17,25 @@ class CreationOfStoryboard: UIViewController {
     
     private var _groupName: Groups!
     
-    var groupName: Groups {
-        get {
-            return _groupName
-        } set {
-            _groupName = newValue
-        }
-    }
+   // var stories: Stories = Stories(groupName: "", image1: "", image2: "", image3: "", image4: "", image1Text: "", image2Text: "", image3Text: "", image4Text: "")
+    
+    var imageSelectedPassed = ImageSelected(imageID: "", imageTag: 0, groupName: "")
+    
+    var groupName = Groups(groupName: "")
+    
+//    var groupName: Groups {
+//        get {
+//            return _groupName
+//        } set {
+//            _groupName = newValue
+//        }
+//    }
+    
+    var destinationCameFrom: String = ""
     
     var groupNameStored: String = ""
+    
+    var imageTag: Int = 0
     
     var imageArray: [UIImageView] = [UIImageView]()
     
@@ -58,9 +68,24 @@ class CreationOfStoryboard: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
   
-        self.groupNameStored = groupName.groupName
+        if destinationCameFrom == "GroupList" {
+            
+            self.groupNameStored = groupName.groupName
+            
+        } else if destinationCameFrom == "MembersCreativePieces" {
+            
+            self.groupNameStored = imageSelectedPassed.groupName
+            
+        } else {
+            
+            self.groupNameStored = groupName.groupName
+        }
         
-        print(groupNameStored)
+
+    
+        print(imageSelectedPassed.imageID)
+        print(imageSelectedPassed.groupName)
+        print(imageSelectedPassed.imageTag)
         
         self.imageArray.append(image1)
         self.imageArray.append(image2)
@@ -73,18 +98,21 @@ class CreationOfStoryboard: UIViewController {
             image.addGestureRecognizer(tappedGesture)
             image.isUserInteractionEnabled = true
             
-            
-            
         }
     
     
     }
     
     
-    @objc func imageSelected() {
+    @objc func imageSelected(tappedGesture: UIGestureRecognizer) {
         
-        let groupName = Groups(groupName: groupNameStored)
-        performSegue(withIdentifier: "SelectingAnImage", sender: groupName)
+        if let view = tappedGesture.view as? UIImageView {
+            self.imageTag = view.tag
+        }
+        
+        let storySelected = StorySelection(groupName: groupNameStored, imageSelected: self.imageTag)
+        
+        performSegue(withIdentifier: "SelectingAnImage", sender: storySelected)
         
         
     }
@@ -93,9 +121,9 @@ class CreationOfStoryboard: UIViewController {
         
         if let destination = segue.destination as? MembersCreativePieces {
             
-            if let groupName = sender as? Groups {
+            if let storySelection = sender as? StorySelection {
                 
-                destination.groupName = groupName
+                destination.storySelection = storySelection
                 destination.viewControllerCameFrom = "CreationOfStoryboard"
                 
             }
