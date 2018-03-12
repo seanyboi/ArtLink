@@ -12,12 +12,19 @@ import FirebaseStorage
 
 class CreationOfStoryboard: UIViewController {
     
-    
-    //TODO: Getter, Setter for the for the group name
-    
     private var _groupName: Groups!
     
-   //var stories: Stories = Stories(groupName: "", image1: "", image2: "", image3: "", image4: "", image1Text: "", image2Text: "", image3Text: "", image4Text: "")
+    @IBOutlet weak var image1Stack: UIStackView!
+    
+    @IBOutlet weak var image2Stack: UIStackView!
+    
+    @IBOutlet weak var image3Stack: UIStackView!
+    
+    @IBOutlet weak var image4Stack: UIStackView!
+    
+    var waitingForImagesIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    
+    //var stories: Stories = Stories(groupName: "", image1: "", image2: "", image3: "", image4: "", image1Text: "", image2Text: "", image3Text: "", image4Text: "")
     
     var arr : [Int] = [1000000000]
     
@@ -59,8 +66,11 @@ class CreationOfStoryboard: UIViewController {
     
     @IBOutlet weak var image4TxtField: UITextView!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+
         
         self.imageArray.append(image1)
         self.imageArray.append(image2)
@@ -84,15 +94,15 @@ class CreationOfStoryboard: UIViewController {
             
             self.groupNameStored = imageSelectedPassed.groupName
             
-            
-            
             if imageSelectedPassed.imageTag == 1 {
             
+                
                 imageDownload(urlLink: imageSelectedPassed.imageID, imageTag: 1)
+                
     
             } else if imageSelectedPassed.imageTag == 2 {
                 
-                //saved locally
+                
                imageDownload(urlLink: imageSelectedPassed.imageID, imageTag: 2)
             
                 
@@ -131,7 +141,33 @@ class CreationOfStoryboard: UIViewController {
         
         let arrayDataRetrieved = UserDefaults.standard.object(forKey: "arrayOfTags")
         
-        return arrayDataRetrieved as! [Int]
+        let arrayData: [Int] = arrayDataRetrieved as! [Int]
+    
+        return arrayData
+        
+    }
+    
+    func activityIndicatorAction(state: String) {
+        
+        waitingForImagesIndicator.center = self.view.center
+        waitingForImagesIndicator.hidesWhenStopped = true
+        waitingForImagesIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.whiteLarge
+        waitingForImagesIndicator.color = .black
+        
+        if state == "yes" {
+            
+            image1Stack.isHidden = true
+            view.addSubview(waitingForImagesIndicator)
+            waitingForImagesIndicator.startAnimating()
+            UIApplication.shared.beginIgnoringInteractionEvents()
+            
+        } else if state == "no" {
+            
+            image1Stack.isHidden = false
+            waitingForImagesIndicator.stopAnimating()
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
+        }
         
     }
     
@@ -158,6 +194,8 @@ class CreationOfStoryboard: UIViewController {
     }
     
     func imageDownload(urlLink: String, imageTag: Int) {
+    
+        activityIndicatorAction(state: "yes")
         
         let imageURLConversion = URL(string: urlLink)
         URLSession.shared.dataTask(with: imageURLConversion!, completionHandler: { (data, response, error) in
@@ -172,15 +210,41 @@ class CreationOfStoryboard: UIViewController {
                         
                         UserDefaults.standard.set(imageData, forKey: "\(imageTag)")
                         
-                        var arrayData: [Int] = self.unarchivingOfArray()
+                        var newArrayData: [Int] = self.unarchivingOfArray()
                         
-                        arrayData.append(imageTag)
+                        if newArrayData.contains(imageTag) {
+                            
+                            let index = newArrayData.index(of: imageTag)
                         
-                        UserDefaults.standard.set(arrayData, forKey: "arrayOfTags")
+                            newArrayData[index!] = imageTag
+                            
+                        } else {
+                        
+                            newArrayData.append(imageTag)
+                        }
+                        
+                        if newArrayData.count == 2 {
+                            self.image2Stack.isHidden = false
+                        } else if newArrayData.count == 3 {
+                            self.image2Stack.isHidden = false
+                            self.image3Stack.isHidden = false
+                        } else if newArrayData.count == 4 {
+                            self.image2Stack.isHidden = false
+                            self.image3Stack.isHidden = false
+                            self.image4Stack.isHidden = false
+                        } else if newArrayData.count == 5 {
+                            self.image2Stack.isHidden = false
+                            self.image3Stack.isHidden = false
+                            self.image4Stack.isHidden = false
+                        }
+                        
+                        UserDefaults.standard.set(newArrayData, forKey: "arrayOfTags")
                             
                         UserDefaults.standard.synchronize()
                         
                         self.callingSavedImages()
+                        
+                        self.activityIndicatorAction(state: "no")
 
                     }
                 }
@@ -239,7 +303,11 @@ class CreationOfStoryboard: UIViewController {
                 
                 if error == nil {
                     
+                    if let appDomain = Bundle.main.bundleIdentifier {
+                        UserDefaults.standard.removePersistentDomain(forName: appDomain)
+                    }
                     print("Saved Succesfully into Realtime Database")
+                    self.dismiss(animated: true, completion: nil)
                     
                 } else {
                     
@@ -251,26 +319,31 @@ class CreationOfStoryboard: UIViewController {
         } else {
                 
                 let signupAlert = UIAlertController(title: "Error", message: "There was an error saving the story, please check if there is a story title", preferredStyle: .alert)
+            
+                signupAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 
                 self.present(signupAlert, animated: true, completion: nil)
 
             }
-        
-        if let appDomain = Bundle.main.bundleIdentifier {
-            UserDefaults.standard.removePersistentDomain(forName: appDomain)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-            
-            self.dismiss(animated: true, completion: nil)
+
 
         }
+    
+    
+    @IBAction func howToCreateStoryBtn(_ sender: Any) {
+        let howToUseAlert = UIAlertController(title: "Please Read Instructions!", message: "Hello to Create A Story. Please firstly choose all four images you wish to use to create a story. Once you are finally happy on which images you will use should you then enter any details in the text boxes below the images. Otherwise the text will be erased each time you choose a new picture. Please enter a story title then click 'Save Story!'", preferredStyle: .alert)
+        
+        howToUseAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        
+        self.present(howToUseAlert, animated: true, completion: nil)
+        
+        
+    }
+    
+    
         
     }
     
     
     //implement back button
-    
-    
-    
-}
+
