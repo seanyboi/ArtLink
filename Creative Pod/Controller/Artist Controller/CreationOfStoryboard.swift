@@ -17,19 +17,13 @@ class CreationOfStoryboard: UIViewController {
     
     private var _groupName: Groups!
     
-   // var stories: Stories = Stories(groupName: "", image1: "", image2: "", image3: "", image4: "", image1Text: "", image2Text: "", image3Text: "", image4Text: "")
+   //var stories: Stories = Stories(groupName: "", image1: "", image2: "", image3: "", image4: "", image1Text: "", image2Text: "", image3Text: "", image4Text: "")
+    
+    var arr : [Int] = [1000000000]
     
     var imageSelectedPassed = ImageSelected(imageID: "", imageTag: 0, groupName: "")
     
     var groupName = Groups(groupName: "")
-    
-//    var groupName: Groups {
-//        get {
-//            return _groupName
-//        } set {
-//            _groupName = newValue
-//        }
-//    }
     
     var destinationCameFrom: String = ""
     
@@ -67,25 +61,6 @@ class CreationOfStoryboard: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-  
-        if destinationCameFrom == "GroupList" {
-            
-            self.groupNameStored = groupName.groupName
-            
-        } else if destinationCameFrom == "MembersCreativePieces" {
-            
-            self.groupNameStored = imageSelectedPassed.groupName
-            
-        } else {
-            
-            self.groupNameStored = groupName.groupName
-        }
-        
-
-    
-        print(imageSelectedPassed.imageID)
-        print(imageSelectedPassed.groupName)
-        print(imageSelectedPassed.imageTag)
         
         self.imageArray.append(image1)
         self.imageArray.append(image2)
@@ -99,8 +74,123 @@ class CreationOfStoryboard: UIViewController {
             image.isUserInteractionEnabled = true
             
         }
+  
+        if destinationCameFrom == "GroupList" {
+            
+            self.groupNameStored = groupName.groupName
+            creationOfArray()
+            
+        } else if destinationCameFrom == "MembersCreativePieces" {
+            
+            self.groupNameStored = imageSelectedPassed.groupName
+            
+            
+            
+            if imageSelectedPassed.imageTag == 1 {
+            
+                imageDownload(urlLink: imageSelectedPassed.imageID, imageTag: 1)
     
+            } else if imageSelectedPassed.imageTag == 2 {
+                
+                //saved locally
+               imageDownload(urlLink: imageSelectedPassed.imageID, imageTag: 2)
+            
+                
+            } else if imageSelectedPassed.imageTag == 3 {
+                
+                imageDownload(urlLink: imageSelectedPassed.imageID, imageTag: 3)
+        
+                
+            } else if imageSelectedPassed.imageTag == 4 {
+                
+                imageDownload(urlLink: imageSelectedPassed.imageID, imageTag: 4)
+                
+                
+            }
+        
+        } else {
+            
+            self.groupNameStored = groupName.groupName
+        }
+        
+        
+        
     
+    }
+    
+    func creationOfArray() {
+        
+        UserDefaults.standard.set(self.arr, forKey: "arrayOfTags")
+        
+        UserDefaults.standard.synchronize()
+        
+        
+    }
+    
+    func unarchivingOfArray() -> [Int] {
+        
+        let arrayDataRetrieved = UserDefaults.standard.object(forKey: "arrayOfTags")
+        
+        return arrayDataRetrieved as! [Int]
+        
+    }
+    
+    func callingSavedImages() {
+        
+        print("callingSavedImages complete")
+        
+        let arr: [Int] = self.unarchivingOfArray()
+        
+        for x in 1...arr.count-1{
+            
+            let dataContains = UserDefaults.standard.object(forKey: "\(x)") as! NSData
+            
+            for image in imageArray {
+            
+                if image.tag == x {
+                    image.image = UIImage(data: dataContains as Data)
+                }
+                
+                
+            }
+        }
+    
+    }
+    
+    func imageDownload(urlLink: String, imageTag: Int) {
+        
+        let imageURLConversion = URL(string: urlLink)
+        URLSession.shared.dataTask(with: imageURLConversion!, completionHandler: { (data, response, error) in
+            
+            if error == nil {
+                
+                if let imageFromFirebase = UIImage(data: data!) {
+                  
+                    DispatchQueue.main.async {
+                        
+                        let imageData: NSData = UIImagePNGRepresentation(imageFromFirebase)! as NSData
+                        
+                        UserDefaults.standard.set(imageData, forKey: "\(imageTag)")
+                        
+                        var arrayData: [Int] = self.unarchivingOfArray()
+                        
+                        arrayData.append(imageTag)
+                        
+                        UserDefaults.standard.set(arrayData, forKey: "arrayOfTags")
+                            
+                        UserDefaults.standard.synchronize()
+                        
+                        self.callingSavedImages()
+
+                    }
+                }
+        
+            } else {
+                
+                print(error as Any)
+                
+            }
+        }).resume()
     }
     
     
@@ -165,6 +255,10 @@ class CreationOfStoryboard: UIViewController {
                 self.present(signupAlert, animated: true, completion: nil)
 
             }
+        
+        if let appDomain = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: appDomain)
+        }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
             

@@ -88,6 +88,10 @@ class LoginScreen: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let appDomain = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: appDomain)
+        }
+        
         nameLoginTxtField.text = ""
         passwordLoginTxtField.text = ""
     
