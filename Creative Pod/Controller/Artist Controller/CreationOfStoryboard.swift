@@ -38,6 +38,11 @@ class CreationOfStoryboard: UIViewController {
     
     var imageTag: Int = 0
     
+    var image1Link: String = ""
+    var image2Link: String = ""
+    var image3Link: String = ""
+    var image4Link: String = ""
+    
     var imageArray: [UIImageView] = [UIImageView]()
     
     @IBOutlet weak var storyTitleTxtField: UITextField!
@@ -70,8 +75,6 @@ class CreationOfStoryboard: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-
-        
         self.imageArray.append(image1)
         self.imageArray.append(image2)
         self.imageArray.append(image3)
@@ -96,25 +99,33 @@ class CreationOfStoryboard: UIViewController {
             
             if imageSelectedPassed.imageTag == 1 {
             
-                
                 imageDownload(urlLink: imageSelectedPassed.imageID, imageTag: 1)
-                
+                image1Link = imageSelectedPassed.imageID
+                UserDefaults.standard.set(image1Link, forKey: "image1Link")
+                UserDefaults.standard.synchronize()
     
             } else if imageSelectedPassed.imageTag == 2 {
                 
+                imageDownload(urlLink: imageSelectedPassed.imageID, imageTag: 2)
+                image2Link = imageSelectedPassed.imageID
+                UserDefaults.standard.set(image2Link, forKey: "image2Link")
+                UserDefaults.standard.synchronize()
                 
-               imageDownload(urlLink: imageSelectedPassed.imageID, imageTag: 2)
-            
                 
             } else if imageSelectedPassed.imageTag == 3 {
                 
                 imageDownload(urlLink: imageSelectedPassed.imageID, imageTag: 3)
+                image3Link = imageSelectedPassed.imageID
+                UserDefaults.standard.set(image3Link, forKey: "image3Link")
+                UserDefaults.standard.synchronize()
         
                 
             } else if imageSelectedPassed.imageTag == 4 {
                 
                 imageDownload(urlLink: imageSelectedPassed.imageID, imageTag: 4)
-                
+                image4Link = imageSelectedPassed.imageID
+                UserDefaults.standard.set(image4Link, forKey: "image4Link")
+                UserDefaults.standard.synchronize()
                 
             }
         
@@ -172,8 +183,6 @@ class CreationOfStoryboard: UIViewController {
     }
     
     func callingSavedImages() {
-        
-        print("callingSavedImages complete")
         
         let arr: [Int] = self.unarchivingOfArray()
         
@@ -288,6 +297,11 @@ class CreationOfStoryboard: UIViewController {
     @IBAction func saveStoryBtn(_ sender: Any) {
         
         if storyTitleTxtField.text != "" {
+            
+            let image1LinkString: String = UserDefaults.standard.object(forKey: "image1Link") as! String
+            let image2LinkString: String = UserDefaults.standard.object(forKey: "image2Link") as! String
+            let image3LinkString: String = UserDefaults.standard.object(forKey: "image3Link") as! String
+            let image4LinkString: String = UserDefaults.standard.object(forKey: "image4Link") as! String
         
             let ref = Database.database().reference()
             
@@ -297,7 +311,7 @@ class CreationOfStoryboard: UIViewController {
         
             let storyRefKey = storyGroupRef.child("\(storyTitleTxtField.text!)")
             
-            let values = ["Image 1" : self.image1URL, "Image 1 Text" : image1TxtField.text!, "Image 2" : self.image2URL, "Image 2 Text": image2TxtField.text!, "Image 3" : self.image3URL, "Image 3 Text": image3TxtField.text!, "Image 4" : self.image4URL, "Image 4 Text": image4TxtField.text!]
+            let values = ["Image 1" : image1LinkString, "Image 1 Text" : image1TxtField.text!, "Image 2" : image2LinkString, "Image 2 Text": image2TxtField.text!, "Image 3" : image3LinkString, "Image 3 Text": image3TxtField.text!, "Image 4" : image4LinkString, "Image 4 Text": image4TxtField.text!]
             
             storyRefKey.updateChildValues(values as Any as! [AnyHashable : Any], withCompletionBlock: { (error, ref) in
                 
@@ -307,7 +321,7 @@ class CreationOfStoryboard: UIViewController {
                         UserDefaults.standard.removePersistentDomain(forName: appDomain)
                     }
                     print("Saved Succesfully into Realtime Database")
-                    self.dismiss(animated: true, completion: nil)
+                    self.performSegue(withIdentifier: "SavedChanges", sender: nil)
                     
                 } else {
                     

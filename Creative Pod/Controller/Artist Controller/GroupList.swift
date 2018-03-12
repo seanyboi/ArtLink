@@ -18,12 +18,16 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var storiesTableView: UITableView!
     
     var groupArray = [Groups]()
+    var storiesArray = [Stories]()
     
     let currentUser = Auth.auth().currentUser?.uid
     var typeName: String = ""
     var name: String = ""
     var group: String = ""
     var groupNameOfArtist: Groups = Groups(groupName: "")
+    
+    var storyTitle: String = ""
+    var storyNameFromGroup: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +37,8 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         groupTableView.delegate = self
         groupTableView.dataSource = self
+        storiesTableView.delegate = self
+        storiesTableView.dataSource = self
         
         thisUserRef.observeSingleEvent(of: .value) { (snapshot) in
             
@@ -46,26 +52,81 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             self.groupArray.append(groupNameForArtist)
             
+            self.storyNameFromGroup = groupNameForArtist.groupName
+        
             self.groupTableView.reloadData()
             
-        }
+            let storyRef = Database.database().reference().child("stories")
+            let groupNameRef = storyRef.child("\(self.storyNameFromGroup)")
+            
+            groupNameRef.observe(DataEventType.value) { (snapshot) in
+                if snapshot.childrenCount > 0 {
+                    
+                    self.storiesArray.removeAll()
+                    
+                    for storyJSON in snapshot.children.allObjects as! [DataSnapshot] {
+                        
+                        self.storyTitle = storyJSON.key
+                        
+                        let storyElement = storyJSON.value as? [String: AnyObject]
+                        let image1 = storyElement?["Image 1"] as! String
+                        let image1Text = storyElement?["Image 1 Text"] as! String
+                        let image2 = storyElement?["Image 2"] as! String
+                        let image2Text = storyElement?["Image 2 Text"] as! String
+                        let image3 = storyElement?["Image 3"] as! String
+                        let image3Text = storyElement?["Image 3 Text"] as! String
+                        let image4 = storyElement?["Image 4"] as! String
+                        let image4Text = storyElement?["Image 4 Text"] as! String
+                        
+                        let storyName = Stories(storyName: self.storyTitle, image1: image1, image2: image2, image3: image3, image4: image4, image1Text: image1Text, image2Text: image2Text, image3Text: image3Text, image4Text: image4Text)
+                        
+                        self.storiesArray.append(storyName)
+                        
+                        self.storiesTableView.reloadData()
+                        
+                    }
+                    
+                }
+            }
+            
 
+        }
+        
+        
+        
         
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if let cell = groupTableView.dequeueReusableCell(withIdentifier: "GroupListCell", for: indexPath) as? GroupListCell {
+       
+        if tableView.tag == 1 {
+            if let cell = groupTableView.dequeueReusableCell(withIdentifier: "GroupListCell", for: indexPath) as? GroupListCell {
+                
+                let groupName = groupArray[indexPath.row]
+                
+                cell.updateUI(groupsName: groupName)
+                
+                return cell
+                
+            } else {
+                
+                return UITableViewCell()
+            }
+        } else if tableView.tag == 2 {
             
-            let groupName = groupArray[indexPath.row]
-            
-            cell.updateUI(groupsName: groupName)
-            
-            return cell
+            if let cell = storiesTableView.dequeueReusableCell(withIdentifier: "StoryCell", for: indexPath) as? StoryCell {
+                
+                let storyName = storiesArray[indexPath.row]
+                cell.updateUI(storyName: storyName)
+                
+                return cell
+                
+            } else {
+                return UITableViewCell()
+            }
             
         } else {
-            
             return UITableViewCell()
         }
         
@@ -73,7 +134,14 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return groupArray.count
+        if tableView.tag == 1 {
+            return groupArray.count
+        } else if tableView.tag == 2{
+            return storiesArray.count
+        } else {
+            return 0
+        }
+        
         
     }
     

@@ -474,6 +474,7 @@
                         <outlet property="image4TxtField" destination="LGC-9d-7x5" id="pgM-82-nWU"/>
                         <outlet property="storyTitleTxtField" destination="wlM-as-pe5" id="tqy-4h-Nhp"/>
                         <segue destination="rGB-fD-C3b" kind="showDetail" identifier="SelectingAnImage" id="cP0-fp-rFH"/>
+                        <segue destination="Fke-k6-P6W" kind="showDetail" identifier="SavedChanges" id="Thh-0H-pUr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZLV-hf-aQP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -602,7 +603,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="groupNameLbl" destination="iF0-Y6-rjS" id="sbQ-47-20w"/>
                                             <outlet property="storyNameLbl" destination="iF0-Y6-rjS" id="8yX-fL-yhE"/>
                                         </connections>
                                     </tableViewCell>
@@ -1606,7 +1606,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="cP0-fp-rFH"/>
-        <segue reference="AWM-uG-bNj"/>
+        <segue reference="Thh-0H-pUr"/>
+        <segue reference="xnL-LZ-2Xi"/>
         <segue reference="8K8-8f-Rdu"/>
     </inferredMetricsTieBreakers>
 </document>

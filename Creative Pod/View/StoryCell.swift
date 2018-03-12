@@ -17,9 +17,9 @@ class StoryCell: UITableViewCell {
     }
 
     
-    func updateUI(groupName: Groups) {
+    func updateUI(storyName: Stories) {
     
-        storyNameLbl.text = groupName.groupName
+        storyNameLbl.text = storyName.storyName
         
         
     }
