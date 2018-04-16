@@ -12,6 +12,7 @@ import FirebaseDatabase
 
 class LoginScreen: UIViewController, UITextFieldDelegate {
     
+    //setting default 
     
     @IBOutlet weak var nameLoginTxtField: UITextField!
     
