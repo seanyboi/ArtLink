@@ -5,22 +5,37 @@
 //  Created by Sean O'Connor on 19/02/2018.
 //
 
+//Imported Libraries
+
 import UIKit
 import Firebase
 import FirebaseAuth
 import FirebaseDatabase
 
+/*
+    @brief This class determines behaviour of the GroupList interface used by an Artist
+ 
+ */
+
 class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    //Initialisation of components and variables
     
     @IBOutlet weak var groupTableView: UITableView!
     
     @IBOutlet weak var storiesTableView: UITableView!
     
+    //Array of Group objects
     var groupArray = [Groups]()
+    
+    //Array of Stories objects
     var storiesArray = [Stories]()
     
+    
     let currentUser = Auth.auth().currentUser?.uid
+    
+    //Initialisation of empty variables to recieve information.
+    
     var typeName: String = ""
     var name: String = ""
     var group: String = ""
@@ -32,17 +47,31 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let currentUserReference = Database.database().reference().child("users")
-        let thisUserRef = currentUserReference.child((Auth.auth().currentUser?.uid)!)
-        
         groupTableView.delegate = self
         groupTableView.dataSource = self
         storiesTableView.delegate = self
         storiesTableView.dataSource = self
         
+       
+        receivingDataToFillTableViews()
+        
+        
+        
+    }
+    
+    func receivingDataToFillTableViews() {
+        
+        //Setting up references to access data at particular points in 'users' branch in Realtime Database.
+        
+        let currentUserReference = Database.database().reference().child("users")
+        let thisUserRef = currentUserReference.child((Auth.auth().currentUser?.uid)!)
+        
+        //Observation of data from pointed reference.
+        
         thisUserRef.observeSingleEvent(of: .value) { (snapshot) in
             
-            //RETRIEVED CURRENT USERS NAME AND TYPE
+            //Retrieving data and placing into variables.
+            
             let type = snapshot.value as? [String: AnyObject]
             self.typeName = type!["Type"] as! String
             self.name = type!["Name"] as! String
@@ -54,19 +83,29 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             self.storyNameFromGroup = groupNameForArtist.groupName
             
+            //Reloading of TableView critical to ensure data is placed within.
+            
             self.groupTableView.reloadData()
+            
+            //Setting up references to access data at particular points in 'stories' branch in Realtime Database.
             
             let storyRef = Database.database().reference().child("stories")
             let groupNameRef = storyRef.child("\(self.storyNameFromGroup)")
             
+            //Observation of data from pointed reference.
+            
             groupNameRef.observe(DataEventType.value) { (snapshot) in
                 if snapshot.childrenCount > 0 {
+                    
+                    //Ensuring array is clear before appending.
                     
                     self.storiesArray.removeAll()
                     
                     for storyJSON in snapshot.children.allObjects as! [DataSnapshot] {
                         
                         self.storyTitle = storyJSON.key
+                        
+                        //Retrieving data and placing into variables.
                         
                         let storyElement = storyJSON.value as? [String: AnyObject]
                         let image1 = storyElement?["Image 1"] as! String
@@ -92,15 +131,17 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
         }
         
-        
-        
-        
     }
     
     
+    //Initialises the data that should be inserted into the rows of the two TableViews calling methods from GroupListCell.swift and StoryCell.swift
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        //Due to two TableViews on one interface, each are assigned tags to distinguish between them.
+        
         if tableView.tag == 1 {
+            
             if let cell = groupTableView.dequeueReusableCell(withIdentifier: "GroupListCell", for: indexPath) as? GroupListCell {
                 
                 let groupName = groupArray[indexPath.row]
@@ -132,6 +173,8 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    //Determines how many rows are placed within TableViews, in this case the length of both group and stories array.
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if tableView.tag == 1 {
@@ -145,16 +188,24 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    //Implementation of delete button appearing when swiping on a row in Stories TableView
+    
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         if tableView.tag == 2 {
+            
+            //Creation of delete button
             
             let deletingStory = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
                 
                 let storyOfDeletion = self.storiesArray[indexPath.row]
                 
+                //If Pressed remove value from the stories array that stores all previously created stories.
+                
                 self.storiesArray.remove(at: indexPath.row)
                 self.storiesTableView.deleteRows(at: [indexPath], with: .fade)
+                
+                //Finds reference point of where the story chosen to be deleted is
                 
                 let storyReference = Database.database().reference().child("stories").child(self.storyNameFromGroup)
                 
@@ -164,8 +215,11 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
                         
                         for storiesNameJSON in snapshot.children.allObjects as! [DataSnapshot] {
                             
-                            //TODO: IF TIME REMOVE ALL GROUP FROM PEOPLE
+                            //Check to see story deleted matches a value within 'stories' branch.
+                            
                             if storiesNameJSON.key == storyOfDeletion.storyName {
+                                
+                                //If there is a match, remove the value from the Realtime Database and display alert stating it has been deleted.
                                 
                                 storyReference.child(storiesNameJSON.key).removeValue()
                                 
@@ -182,6 +236,8 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
                             
                         }
                         
+                        //Reload of TableView essential so it does not display story just deleted.
+                        
                         self.storiesTableView.reloadData()
                         
                     }
@@ -196,6 +252,7 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    //Movement to a different Controller performed when selecting a row from either TableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -214,7 +271,11 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    //Prepares data to be transfered to next Controller when moving between Controllers.
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        //Checking destinations, depending what destination is associated to either TableView depends what data is transferred.
         
         if let destination = segue.destination as? NameList {
             
@@ -224,7 +285,8 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
             }
         }
-        
+    
+
         if let destination = segue.destination as? CreationOfStoryboard {
             
             if let groupName = sender as? Groups {
@@ -242,6 +304,8 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    //Retrieves group name of Artist to be utilised when creating a story.
+    
     @IBAction func creatingNewStoryBtn(_ sender: Any) {
         
         let currentUserReference = Database.database().reference().child("users")
@@ -249,7 +313,7 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         thisUserRef.observeSingleEvent(of: .value) { (snapshot) in
             
-            //RETRIEVED CURRENT USERS NAME AND TYPE
+            //Retrieving Group name of current User from their child node of 'users' branch.
             
             let type = snapshot.value as? [String: AnyObject]
             self.group = type!["Group"] as! String
@@ -262,6 +326,8 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    //User is signed out when log out button pressed.
+    
     @IBAction func loggingOut(_ sender: Any) {
         
         do {
@@ -269,12 +335,11 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
             try Auth.auth().signOut()
             
             performSegue(withIdentifier: "LoggedOut", sender: nil)
-            
-            print("Sign out successful")
-            
+        
         } catch {
             
             print("Logout Error")
+            
         }
         
     }
