@@ -34,6 +34,7 @@ class CreativeProductCell: UICollectionViewCell {
         if let imageIsCached = cachedImage.object(forKey: image.imageID as AnyObject) as? UIImage {
             
             self.creativeImg.image = imageIsCached
+            creativeImg.contentMode = .scaleAspectFit
             print("Cached Image")
             activityIndicator.stopAnimating()
             return

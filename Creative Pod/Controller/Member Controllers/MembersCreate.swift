@@ -168,6 +168,7 @@ class MembersCreate: UIViewController, UINavigationControllerDelegate, UIImagePi
         
     }
     
+    //reference
     func fixOrientation(img: UIImage) -> UIImage {
         if (img.imageOrientation == .up) {
             return img

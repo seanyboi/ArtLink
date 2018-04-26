@@ -26,6 +26,14 @@ class ImagesViewed: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView (activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+        activityIndicator.color = .blue
+        activityIndicator.center = self.view.center
+        self.view.addSubview(activityIndicator)
+        activityIndicator.bringSubview(toFront: self.view)
+        activityIndicator.startAnimating()
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
         let imageURLConversion = URL(string: memberImage.imageID)
         URLSession.shared.dataTask(with: imageURLConversion!, completionHandler: { (data, response, error) in
             
@@ -33,6 +41,9 @@ class ImagesViewed: UIViewController {
                 
                 DispatchQueue.main.async {
                     self.imageOfMember.image = UIImage(data: data!)
+                    self.imageOfMember.isHidden = false
+                    activityIndicator.stopAnimating()
+                    UIApplication.shared.endIgnoringInteractionEvents()
                 }
                 
             } else {
