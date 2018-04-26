@@ -7,6 +7,12 @@
 
 import Foundation
 
+/*
+    @brief This class initiates a ImageSelected object with the image id, image tag and group name.
+ 
+    @description Allow ImageSelected objects to be past between controllers to help keep track of what image is selected when an Artist is creating a storyboard.
+ */
+
 class ImageSelected {
     
     private var _imageID: String!

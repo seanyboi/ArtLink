@@ -7,6 +7,12 @@
 
 import UIKit
 
+/*
+    @brief This subclass allows a customisation to the cells within the TableView of NameList.swift.
+ 
+    @description Sets the label contained within the TableView
+ */
+
 class NameListCell: UITableViewCell {
     
     
@@ -20,12 +26,9 @@ class NameListCell: UITableViewCell {
     
     func updateUI(usersName: Users) {
      
-            
+        
         memberName.text = usersName.userName
 
-        
-        
-        
     }
 
 }

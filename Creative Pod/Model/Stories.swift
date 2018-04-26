@@ -9,6 +9,13 @@ import Foundation
 
 import Foundation
 
+/*
+    @brief This class initiates a Stories object with the a story name, 4 images and 4 accompanying captions.
+ 
+    @description Allow Stories objects to be past between controllers and data read from database to be stored within.
+ */
+
+
 class Stories {
     
     private var _storyName: String!

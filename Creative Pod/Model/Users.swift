@@ -7,7 +7,12 @@
 
 import Foundation
 
-
+/*
+    @brief This class initiates a User object with their name, type and group.
+ 
+    @description Allow User objects to be past between controllers and data read from database to be stored within.
+ 
+*/
 class Users {
     
     
@@ -28,6 +33,7 @@ class Users {
         return _groupName!
     }
     
+    //Initialiser
     init(typeOfUser: String?, userName: String?, groupName: String?) {
         
         _userName = userName

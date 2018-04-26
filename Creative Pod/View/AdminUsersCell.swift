@@ -7,6 +7,12 @@
 
 import UIKit
 
+/*
+    @brief This subclass allows a customisation to the cells within the TableView of UserGroupAdminInterface.swift.
+ 
+    @description Sets the two labels contained within the Users TableView
+ */
+
 class AdminUsersCell: UITableViewCell {
 
     @IBOutlet weak var adminUsersLbl: UILabel!

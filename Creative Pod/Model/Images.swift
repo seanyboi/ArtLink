@@ -7,6 +7,12 @@
 
 import Foundation
 
+/*
+    @brief This class initiates a Images object with the id, date taken and who it was taken by.
+ 
+    @description Allow Images objects to be past between controllers and data read from database to be stored within.
+ */
+
 class Images {
     
     private var _imageID: String!

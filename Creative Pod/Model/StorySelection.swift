@@ -7,6 +7,13 @@
 
 import Foundation
 
+/*
+    @brief This class initiates a StorySelection object with the group name and image selected.
+ 
+    @description Allow StorySelection objects to be past between controllers to help decide what story is selected when by an Artist to view.
+ */
+
+
 class StorySelection {
     
     private var _groupName: String!

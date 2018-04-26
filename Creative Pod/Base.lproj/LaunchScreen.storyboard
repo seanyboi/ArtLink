@@ -24,7 +24,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="87j-hS-10A">
-                                <rect key="frame" x="157.5" y="378" width="453" height="267.5"/>
+                                <rect key="frame" x="157.5" y="378.5" width="453" height="267.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ArtlinkLogo" translatesAutoresizingMaskIntoConstraints="NO" id="HQu-7O-B1l">
                                         <rect key="frame" x="10" y="0.0" width="433" height="113"/>
