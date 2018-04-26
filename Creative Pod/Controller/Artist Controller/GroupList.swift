@@ -142,6 +142,8 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         if tableView.tag == 1 {
             
+            //Ensures rows are recycled.
+            
             if let cell = groupTableView.dequeueReusableCell(withIdentifier: "GroupListCell", for: indexPath) as? GroupListCell {
                 
                 let groupName = groupArray[indexPath.row]
@@ -155,6 +157,8 @@ class GroupList: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
         } else if tableView.tag == 2 {
+            
+            //Ensures rows are recycled.
             
             if let cell = storiesTableView.dequeueReusableCell(withIdentifier: "StoryCell", for: indexPath) as? StoryCell {
                 

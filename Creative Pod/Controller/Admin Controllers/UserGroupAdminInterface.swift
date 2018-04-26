@@ -5,15 +5,21 @@
 //  Created by Sean O'Connor on 20/02/2018.
 //
 
+//Imported Libraries
 
 import UIKit
 import FirebaseDatabase
 import Firebase
 import FirebaseAuth
 
+/*
+ @brief This class determines behaviour of the UserGroupAdminInterface.swift interface used by an Admin
+ 
+ */
+
 class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    
+    //Initialisation of variables and components.
     
     @IBOutlet weak var groupListTableView: UITableView!
     
@@ -39,14 +45,22 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
     
     }
     
+    //Method that pulls all user data to be placed within User's TableView
+    
     func pullUserData() {
         
+        //Creates reference to 'users' branch
+        
         let membersReference = Database.database().reference().child("users")
+        
+        //Observes values of 'users' branch
         
         membersReference.observe(DataEventType.value) { (snapshot) in
             if snapshot.childrenCount > 0 {
                 
                 self.usersArray.removeAll()
+                
+                //Loops through child nodes extracting key and values
                 
                 for membersJSON in snapshot.children.allObjects as! [DataSnapshot] {
                     
@@ -54,6 +68,8 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                     let typeName = memberElement?["Type"] as! String
                     let userName = memberElement?["Name"] as! String
                     let groupName = memberElement?["Group"] as! String
+                    
+                    //Appends every user to the users array except for the admin user account as this does not need to be displayed within the Admin interface.
                     
                     switch typeName {
                         
@@ -84,20 +100,30 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    //Method that pulls all user data to be placed within Group TableView
+    
     func pullGroupData() {
         
+        //Creates reference to 'groups' branch in Database
+        
         let groupReference = Database.database().reference().child("groups")
+        
+        //Observes values of 'groups' branch
         
         groupReference.observe(DataEventType.value) { (snapshot) in
             if snapshot.childrenCount > 0 {
                 
                 self.groupArray.removeAll()
                 
+                ////Loops through child nodes extracting key and values
+                
                 for groupsNameJSON in snapshot.children.allObjects as! [DataSnapshot] {
                     
                     let groupElement = groupsNameJSON.value as? [String: AnyObject]
                     let groupElementName = groupElement!["Group"]
                     let group = Groups(groupName: groupElementName as! String)
+                    
+                    //Appends to group array to be displayed within Groups TableView
                     
                     self.groupArray.append(group)
                     
@@ -111,20 +137,34 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+    //Implementation of delete and edit user button appearing when swiping on a row in Users and Groups TableView
+
+    
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        //Tags associated with tables, Group TableView = 1
         
         if tableView.tag == 1 {
             
+            //Creates delete button when row is swiped
+            
                 let deletingGroup = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+                    
                     
                         let groupOfDeletion = self.groupArray[indexPath.row]
                     
                         print(groupOfDeletion.groupName)
+                    
+                        //Removes group name from the TableView
                         
                         self.groupArray.remove(at: indexPath.row)
                         self.groupListTableView.deleteRows(at: [indexPath], with: .fade)
+                    
+                        //Creates reference to 'groups' branch
                         
                         let groupReference = Database.database().reference().child("groups")
+                    
+                        //Observes values within the branch
                         
                         groupReference.observe(DataEventType.value) { (snapshot) in
                             if snapshot.childrenCount > 0 {
@@ -136,10 +176,12 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                                     let groupElement = groupsNameJSON.value as? [String: AnyObject]
                                     let groupElementName = groupElement!["Group"] as! String
                                     
-                                    //TODO: IF TIME REMOVE ALL GROUP FROM PEOPLE
+                                    //If Group name that was swiped to be deleted is within the 'groups' branch then delete it from the TableView.
                                     if groupOfDeletion.groupName == groupElementName {
                                         
                                         groupReference.child(self.groupUID).removeValue()
+                                        
+                                        //Alert stating the group has been deleted.
                                         
                                         let deleteAlert = UIAlertController(title: "Group Deleted", message: "\(groupElementName) Has Been Deleted", preferredStyle: .alert)
                                         
@@ -162,19 +204,31 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
             
                     return [deletingGroup]
             
+                //Users TableView tag = 2
+            
                 } else if tableView.tag == 2 {
+            
+                    //Initialisation of delete button when swiping
             
                     let deletingUser = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             
                         let nameOfDeletion = self.usersArray[indexPath.row]
                         
+                        //Removal of User from User TableView
+                        
                         self.usersArray.remove(at: indexPath.row)
                         self.nameListTableView.deleteRows(at: [indexPath], with: .fade)
                         
+                        //Initialisation of reference of 'user' branch in database
+                        
                         let membersReference = Database.database().reference().child("users")
+                        
+                        //Observing the values within the 'user' branch
                         
                         membersReference.observe(DataEventType.value) { (snapshot) in
                             if snapshot.childrenCount > 0 {
+                                
+                                //Looping through the values
                                 
                                 for membersJSON in snapshot.children.allObjects as! [DataSnapshot] {
                                     
@@ -183,9 +237,13 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                                     let memberElement = membersJSON.value as? [String: AnyObject]
                                     let userName = memberElement?["Name"] as! String
                                     
+                                    //If name of User swiped is within the database, delete all data associated with them.
+                                    
                                     if nameOfDeletion.userName == userName {
                                         
                                         membersReference.child(self.memberUID).removeValue()
+                                        
+                                        //Present alert stating user has been deleted
                                         
                                         let deleteAlert = UIAlertController(title: "User Deleted", message: "\(userName) Has Been Deleted", preferredStyle: .alert)
                                         
@@ -204,13 +262,17 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                         }
                     }
             
+                //Create a edit user button
+            
                 let editingUser = UITableViewRowAction(style: .normal, title: "Edit User") { (action, indexPath) in
                 
+                    //When pressed move to EditingUserInterface.swift interface
+                    
                     let memberName = self.usersArray[indexPath.row]
                     self.performSegue(withIdentifier: "EditingUsers", sender: memberName)
                 
                 }
-            
+                    //Give button a green colour.
                     editingUser.backgroundColor = UIColor.green
             
                     return [deletingUser, editingUser]
@@ -220,6 +282,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
 
         }
     
+    //Determines how many rows are placed within TableViews, in this case the length of both group and users array.
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -239,7 +302,8 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
-    
+    //Initialises the data that should be inserted into the rows of the two TableViews calling methods from AdminGroupCell.swift and AdminUserCell.swift
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
      
         if tableView.tag == 1 {
@@ -250,6 +314,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                 
                 cell.updateUI(groupsName: groupName)
                 
+                //Makes the row not clickable
                 cell.selectionStyle = UITableViewCellSelectionStyle.none
                 cell.isUserInteractionEnabled = false
                 
@@ -268,6 +333,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                 
                 cell.updateUI(usersName: userName)
                 
+                //Makes the row not clickable for particular Users
                 if cell.adminUserTypeLbl.text == "Artist" || cell.adminUserTypeLbl.text == "Buddy" {
                     
                     cell.isUserInteractionEnabled = false
@@ -288,6 +354,8 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    //Movement to a different Controller performed when selecting a row from Users TableView
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let memberName = usersArray[indexPath.row]
@@ -296,6 +364,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
 
     }
 
+    //Prepares data to be transfered to next Controller when moving between Controllers.
     
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -319,6 +388,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+    //Signs out user.
     
     @IBAction func backButton(_ sender: Any) {
         
@@ -327,8 +397,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
             try Auth.auth().signOut()
             
             dismiss(animated: true, completion: nil)
-            
-            print("Sign out successful")
+        
             
         } catch {
             print("Logout Error")
@@ -336,13 +405,19 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+    //Performs segue to navigate to next controller.
+    
     @IBAction func newUser(_ sender: Any) {
         
         performSegue(withIdentifier: "EditUsers", sender: nil)
     }
     
     
+    //Allows new group to be written to Realtime Database from pop up.
+    
     @IBAction func newGroup(_ sender: Any) {
+        
+        //Presents an alert that contains a TextField for User to enter new name of a group
         
         let alert = UIAlertController(title: "New Group", message: "Please Enter New Name For Group", preferredStyle: .alert)
         
@@ -352,14 +427,20 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
 
         }
         
+        //Once a name has been entered it takes the text and writes that group name to the database.
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
          
             let groupField = alert?.textFields![0]
+            
+            //Initialises reference to 'groups; branch
             
             let ref = Database.database().reference()
             let groupRef = ref.child("groups")
             let groupRefKey = groupRef.childByAutoId()
             let values = ["Group" : groupField?.text]
+            
+            //Updates values within 'groups' branch
+            
             groupRefKey.updateChildValues(values as Any as! [AnyHashable : Any], withCompletionBlock: { (error, ref) in
                 
                 if error == nil {
@@ -373,16 +454,19 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                 }
             })
             
-            let groupReference = Database.database().reference().child("groups")
+            //Once uploaded, now must read from the Database in order to present new Group within Tableview
             
-            groupReference.observe(DataEventType.value) { (snapshot) in
+            groupRef.observe(DataEventType.value) { (snapshot) in
                 if snapshot.childrenCount > 0 {
+                    
+                    //Must remove original array in order to present newly added Group name
                     
                     self.groupArray.removeAll()
                     
+                    //Loops through all children of 'groups' extracting Group name from each and appending to array.
+                    
                     for groupsNameJSON in snapshot.children.allObjects as! [DataSnapshot] {
                         
-                        //TODO: May need to separate the model out into different users?
                         let groupElement = groupsNameJSON.value as? [String: AnyObject]
                         let groupElementName = groupElement!["Group"]
                         let group = Groups(groupName: groupElementName as! String)
@@ -392,6 +476,8 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                         
                     }
                     
+                    //Reload TableView to ensure new group can be seen
+                    
                     self.groupListTableView.reloadData()
                     
                 }
@@ -399,6 +485,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
         
         }))
         
+        //Adds a cancel button to the alert so user can cancel adding a group name if they wish.
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         

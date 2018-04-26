@@ -90,6 +90,7 @@ class LoginScreen: UIViewController, UITextFieldDelegate {
                 if error == nil {
                     
                     //Checks the type key of each child within the 'users' branch observing single event so we dont register new data each time.
+                
                     Database.database().reference().child("users/\(user!.uid)/Type").observe(.value, with: { (snapshot) in
                         
                         //Switch statement checking the type and performing segue's dependent on the Users type.
