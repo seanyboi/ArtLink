@@ -334,6 +334,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
                 cell.updateUI(usersName: userName)
                 
                 //Makes the row not clickable for particular Users
+                
                 if cell.adminUserTypeLbl.text == "Artist" || cell.adminUserTypeLbl.text == "Buddy" {
                     
                     cell.isUserInteractionEnabled = false

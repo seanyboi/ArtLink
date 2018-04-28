@@ -16,14 +16,24 @@ import UIKit
 import FirebaseDatabase
 import Firebase
 
+/*
+ 
+    @brief This class determines behaviour of the EditingUserInterface.swift interface used by an Admin
+ 
+ */
+
+
 class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
+    //Initialisation of variables and components
     
     private var _userName: Users!
     
     var resetPasswordEmail: String = ""
     var email: String = ""
     var adaptedBuddy: String = ""
+    
+    //Getter and setter to ensure that a User is passed through to the interface.
     
     var userName: Users {
         get {
@@ -49,6 +59,8 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
     
     @IBOutlet weak var buddyPicker: UIPickerView!
     
+    //Creation of arrays and dictionaries to help with editing of User
+    
     var buddyPickerData = [String]()
     var arrayOfUsers = [String]()
     var buddyMemberDictionary : [String : String] = [:]
@@ -59,11 +71,15 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
     
     override func viewDidLoad() {
         
+        //Getting the User interface components.
+        
         userNameDefined = userName.userName
         
         nameLbl.text = userName.userName
         
         gatherUserDetails(user: userName.userName)
+        
+        //Assigning delegates so they can be interacted with.
         
         groupPicker.delegate = self
         groupPicker.dataSource = self
@@ -72,23 +88,30 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
         
     }
     
+    //Function to gather user details that Admin wishes to edit from Realtime Database.
+    
     func gatherUserDetails(user: String) {
+        
+        //Creation of of reference and observation of data held within branch.
         
         let groupReference = Database.database().reference().child("groups")
         
         groupReference.observe(DataEventType.value) { (snapshot) in
             if snapshot.childrenCount > 0 {
                 
+                //Looping through all children of branch inserting their values into the group UIPickerView.
+                
                 for groupsNameJSON in snapshot.children.allObjects as! [DataSnapshot] {
                     
                     let groupElement = groupsNameJSON.value as? [String: AnyObject]
                     let groupElementName = groupElement!["Group"] as! String
                     self.groupPickerData.append(groupElementName)
-                    print("THIS IS THE GROUPS: \(groupElementName)")
                     
                 }
             }
         }
+        
+        //Creation of of reference and observation of data held within branch.
         
         let membersReference = Database.database().reference().child("users")
         
@@ -104,17 +127,17 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
                     let buddyName = memberElement?["Buddy"] as! String
                     self.email = memberElement?["Email"] as! String
                     
-                    print(typeName)
+                    //Appending to previously created dictionary the User's name and their associated group, also the user's name and their associated type.
                     
                     self.userGroupDictionary[userNameX] = groupName
                     self.userTypeDictionary[userNameX] = typeName
                     
+                    //If a Buddy type is encountered append their name to the Buddy UIPickerView.
                     if typeName == "Buddy" {
                         
-                        print("I AM IN THE BUDDY STATEMENT")
                         self.buddyPickerData.append(userNameX)
-                        print("THIS IS BUDDY DATA: \(self.buddyPickerData)")
                     
+                    //If a Member of Artlink type is encountered, add their name and their associated buddy to the dictionary and append the user to the user's array.
                     } else if typeName == "Member of Artlink" {
                         
                         self.buddyMemberDictionary[userNameX] = buddyName
@@ -125,9 +148,8 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
             
                 }
                 
+                //If the user's array contains the selected user to edit name and their type is a Member, show particular components and set UIPickerView's to that user's data.
                     if self.arrayOfUsers.contains(user) && self.userTypeDictionary[user] == "Member of Artlink" {
-                        
-                        print("THIS IS USERNAME: \(user)")
                         
                         self.passwordStack.isHidden = true
                         
@@ -144,6 +166,7 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
                     
                     } else {
                         
+                        //Setting data into components if not a Member.
                         self.buddyPicker.isHidden = true
                         self.buddyLbl.isHidden = true
                         
@@ -158,7 +181,10 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     
+    //When button is pressed, email is sent to User to reset their password. This feature is ONLY available to Artists and Buddy's who sign up with their emails.
     @IBAction func resetPasswordEmailBtn(_ sender: Any) {
+        
+        //Loading spinner until email has been successfully sent.
         
         passwordResetIndicator.color = .black
         
@@ -171,14 +197,16 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
         
         passwordResetIndicator.startAnimating()
         
+        //Auth library allows email to be sent that is self made within the Firebase Platform.
         Auth.auth().sendPasswordReset(withEmail: self.resetPasswordEmail) { (error) in
             
             if error == nil {
                 
-                print("Reset email for password sent")
                 self.passwordResetIndicator.stopAnimating()
                 
             } else {
+                
+                //Alert if email was not delivered successfully.
                 
                 self.passwordResetIndicator.stopAnimating()
                 
@@ -196,13 +224,19 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
         
     }
     
+    //When save button is pressed, data is updated within the database to match the Admins editing decisions.
     
     @IBAction func saveChangesBtnPressed(_ sender: Any) {
         
+        //Creation of reference to the 'users' branch
+        
         let membersReference = Database.database().reference().child("users")
         
+        //Gathering selected group from UIPickerView
+        
         let selectedGroupPicker = self.groupPickerData[self.groupPicker.selectedRow(inComponent: 0)]
-        print(selectedGroupPicker)
+        
+        //Observe children from 'users' branch
         
         membersReference.observe(DataEventType.value) { (snapshot) in
             if snapshot.childrenCount > 0 {
@@ -212,15 +246,17 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
                     let memberElement = membersJSON.value as? [String: AnyObject]
                     let userName = memberElement?["Name"] as! String
                     let typeName = memberElement?["Type"] as! String
-                    
+                
+                    //Switch statement to determine actions taken when a member of a particular type is encountered.
+                
                     switch typeName {
                         
+                    //If a member and the selected user to edit is the same as the name, update their values accordingly.
                     case "Member of Artlink":
                         
                         if userName == self.userNameDefined {
                             
                             let selectedBuddyPicker = self.buddyPickerData[self.buddyPicker.selectedRow(inComponent: 0)]
-                            print(selectedBuddyPicker)
                             
                             membersReference.updateChildValues([membersJSON.key : ["Buddy" : selectedBuddyPicker, "Email" : "", "Group" : selectedGroupPicker , "Name" : self.nameTxtField.text!, "Type" : "Member of Artlink"]])
                             
@@ -228,6 +264,7 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
                             continue
                         }
                         
+                    //If an artist and the selected user to edit is the same as the name, update their values accordingly.
                     case "Artist":
                         
                         if userName == self.userNameDefined {
@@ -236,21 +273,21 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
                         } else {
                             continue
                         }
-                        
+                    //If a buddy and the selected user to edit is the same as the name, update their values accordingly. If a buddy is edited then we must edit name within member's branches.
                     case "Buddy":
                         
                         if userName == self.userNameDefined {
                             
                             if (self.nameTxtField.text == nil)  {
                                 
-                                print("text boxes must contain strings")
-                                
                             } else {
                                 
+                                //Update buddy with new values
                                 membersReference.updateChildValues([membersJSON.key : ["Buddy" : "", "Email" : self.email, "Group" : selectedGroupPicker, "Name" : self.nameTxtField.text!, "Type" : "Buddy"]])
                                 
                                 let memberOfArtlinkReference = Database.database().reference().child("users")
                                 
+                                //Update member's values with new buddy name!
                                 memberOfArtlinkReference.observe(DataEventType.value) { (snapshot) in
                                     if snapshot.childrenCount > 0 {
                                         
@@ -262,9 +299,6 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
                                             let buddyName2 = memberElement?["Buddy"] as! String
                                             let groupName2 = memberElement?["Group"] as! String
                                             
-                                            print(typeName2)
-                                            print(self.userNameDefined)
-                                            
                                             if typeName2 == "Member of Artlink" && buddyName2 == userName {
                                                 
                                                 membersReference.updateChildValues([membersJSON.key : ["Buddy" : self.nameTxtField.text!, "Email" : "", "Group" : groupName2, "Name" : userName2, "Type" : "Member of Artlink"]])
@@ -273,9 +307,6 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
                                         }
                                     }
                                 }
-                                
-                                
-                                
                             }
                             
                             
@@ -308,10 +339,14 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
         
     }
     
+    //Setting number of columns for pickers.
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
+    
+    //Setting number of rows in pickers
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
         if pickerView.tag == 2 {
@@ -321,6 +356,7 @@ class EditingUserInterface: UIViewController, UIPickerViewDelegate, UIPickerView
         }
     }
     
+    //Setting data within the pickers.
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
         if pickerView.tag == 2 {
