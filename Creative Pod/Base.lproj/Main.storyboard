@@ -434,7 +434,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rAQ-ob-KQq">
-                                <rect key="frame" x="10" y="10" width="45" height="46"/>
+                                <rect key="frame" x="20" y="15" width="45" height="46"/>
                                 <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="17"/>
                                 <state key="normal" title="BACK">
                                     <color key="titleColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -451,12 +451,12 @@
                             <constraint firstItem="vYb-ug-kDl" firstAttribute="top" secondItem="FEL-7w-zFD" secondAttribute="top" constant="25" id="AaI-Al-agl"/>
                             <constraint firstItem="7xx-gv-Rje" firstAttribute="leading" secondItem="FEL-7w-zFD" secondAttribute="leading" constant="10" id="DBZ-nQ-t0o"/>
                             <constraint firstItem="FEL-7w-zFD" firstAttribute="trailing" secondItem="7xx-gv-Rje" secondAttribute="trailing" constant="10" id="NFO-8u-MSw"/>
-                            <constraint firstItem="rAQ-ob-KQq" firstAttribute="leading" secondItem="FEL-7w-zFD" secondAttribute="leading" constant="10" id="Pyh-OV-6sL"/>
+                            <constraint firstItem="rAQ-ob-KQq" firstAttribute="leading" secondItem="FEL-7w-zFD" secondAttribute="leading" constant="20" id="Pyh-OV-6sL"/>
                             <constraint firstItem="FEL-7w-zFD" firstAttribute="bottom" secondItem="7xx-gv-Rje" secondAttribute="bottom" constant="20" id="b1Y-FG-Fet"/>
                             <constraint firstItem="FEL-7w-zFD" firstAttribute="trailing" secondItem="mu8-zX-2s6" secondAttribute="trailing" constant="10" id="beZ-GY-nsr"/>
                             <constraint firstItem="7xx-gv-Rje" firstAttribute="top" secondItem="mu8-zX-2s6" secondAttribute="bottom" constant="20" id="fCh-Bm-Pq5"/>
                             <constraint firstItem="mu8-zX-2s6" firstAttribute="leading" secondItem="FEL-7w-zFD" secondAttribute="leading" constant="10" id="mNY-Ww-jvz"/>
-                            <constraint firstItem="rAQ-ob-KQq" firstAttribute="top" secondItem="PxX-lL-KKU" secondAttribute="top" constant="10" id="spn-qP-EWM"/>
+                            <constraint firstItem="rAQ-ob-KQq" firstAttribute="top" secondItem="PxX-lL-KKU" secondAttribute="top" constant="15" id="spn-qP-EWM"/>
                             <constraint firstItem="mu8-zX-2s6" firstAttribute="top" secondItem="vYb-ug-kDl" secondAttribute="bottom" constant="10" id="wv2-Vw-rW2"/>
                             <constraint firstItem="FEL-7w-zFD" firstAttribute="trailing" secondItem="vYb-ug-kDl" secondAttribute="trailing" constant="10" id="yTS-r3-tbj"/>
                         </constraints>
@@ -636,7 +636,6 @@
                             <constraint firstItem="tH0-wn-XzP" firstAttribute="leading" secondItem="Cfd-ol-1y0" secondAttribute="leadingMargin" id="qJM-uK-dAY"/>
                             <constraint firstItem="lr3-sH-J9g" firstAttribute="trailing" secondItem="kiE-cE-cbB" secondAttribute="trailing" id="qwk-ek-dAL"/>
                             <constraint firstItem="Ol6-Su-lHX" firstAttribute="centerX" secondItem="Cfd-ol-1y0" secondAttribute="centerX" id="rFT-fV-766"/>
-                            <constraint firstItem="eCp-FL-Z5Z" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kiE-cE-cbB" secondAttribute="leading" id="spG-J3-hdU"/>
                             <constraint firstItem="S6t-2E-BDu" firstAttribute="top" secondItem="eCp-FL-Z5Z" secondAttribute="bottom" constant="10" id="xDE-vE-40M"/>
                             <constraint firstItem="JFg-6z-lRS" firstAttribute="leading" secondItem="kiE-cE-cbB" secondAttribute="leading" id="z7P-dk-9nL"/>
                         </constraints>
@@ -1576,7 +1575,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="cP0-fp-rFH"/>
-        <segue reference="xVH-VO-OMk"/>
+        <segue reference="Thh-0H-pUr"/>
         <segue reference="AWM-uG-bNj"/>
         <segue reference="HAK-Fh-9Ct"/>
     </inferredMetricsTieBreakers>
