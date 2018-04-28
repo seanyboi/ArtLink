@@ -7,10 +7,17 @@
 
 import UIKit
 
+/*
+ 
+ @brief This class determines behaviour of the ImagesViewed.swift interface used by an all Users to view a larger image of the one selected.
+ 
+ */
+
 class ImagesViewed: UIViewController {
     
-    
     @IBOutlet weak var imageOfMember: UIImageView!
+    
+    //Getter and setter to ensure that an image is recieved and nothing else.
     
     private var _image: Images!
     
@@ -22,17 +29,28 @@ class ImagesViewed: UIViewController {
         }
     }
     
-    
+    let activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView (activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView (activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+        //Loading spinner that symbolises the image is loading, app cannot be used until action complete.
+        
         activityIndicator.color = .blue
         activityIndicator.center = self.view.center
         self.view.addSubview(activityIndicator)
         activityIndicator.bringSubview(toFront: self.view)
         activityIndicator.startAnimating()
         UIApplication.shared.beginIgnoringInteractionEvents()
+        
+        downloadingImage()
+        
+        
+    }
+    
+    //Function to download the image using the URL that was passed from previous interface.
+    
+    func downloadingImage() {
         
         let imageURLConversion = URL(string: memberImage.imageID)
         URLSession.shared.dataTask(with: imageURLConversion!, completionHandler: { (data, response, error) in
@@ -42,7 +60,7 @@ class ImagesViewed: UIViewController {
                 DispatchQueue.main.async {
                     self.imageOfMember.image = UIImage(data: data!)
                     self.imageOfMember.isHidden = false
-                    activityIndicator.stopAnimating()
+                    self.activityIndicator.stopAnimating()
                     UIApplication.shared.endIgnoringInteractionEvents()
                 }
                 
@@ -51,14 +69,7 @@ class ImagesViewed: UIViewController {
                 return
             }
             
-            
-            
         }).resume()
-        
-        
-        
-        
-        
         
     }
     
