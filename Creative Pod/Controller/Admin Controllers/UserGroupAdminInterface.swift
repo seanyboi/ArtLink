@@ -397,7 +397,7 @@ class UserGroupAdminInterface: UIViewController, UITableViewDelegate, UITableVie
             
             try Auth.auth().signOut()
             
-            dismiss(animated: true, completion: nil)
+            performSegue(withIdentifier: "LogOut", sender: nil)
         
             
         } catch {

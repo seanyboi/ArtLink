@@ -192,7 +192,7 @@ class NameList: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 try Auth.auth().signOut()
                 
-                dismiss(animated: true, completion: nil)
+                performSegue(withIdentifier: "LoggingOutBuddy", sender: nil)
                 
                 print("Sign out successful")
                 

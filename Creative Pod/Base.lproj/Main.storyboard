@@ -210,6 +210,7 @@
                         <outlet property="backBtnName" destination="SVO-IJ-pmz" id="QkN-t5-hRu"/>
                         <outlet property="membersTableView" destination="z0Y-xg-p0m" id="BVh-XZ-5Ya"/>
                         <segue destination="rGB-fD-C3b" kind="showDetail" identifier="ViewMemberArtwork" id="jw6-B8-Hk9"/>
+                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="LoggingOutBuddy" id="djf-Jv-s4b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sny-CK-Jo8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -717,6 +718,7 @@
                     <connections>
                         <segue destination="rGB-fD-C3b" kind="showDetail" identifier="MemberViewDesign" id="mUh-Mh-q5d"/>
                         <segue destination="5X5-bi-HEq" kind="showDetail" identifier="MembersCreate" id="EAA-se-JMY"/>
+                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="LoggingOut" id="mob-7N-IDZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u6y-e1-Bgr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -740,7 +742,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4dd-5F-fwa">
                                                 <rect key="frame" x="0.0" y="0.0" width="264.5" height="64"/>
                                                 <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="20"/>
-                                                <state key="normal" title="BACK">
+                                                <state key="normal" title="LOG OUT">
                                                     <color key="titleColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
@@ -914,6 +916,7 @@
                         <segue destination="rGB-fD-C3b" kind="showDetail" identifier="ViewMembersFromAdmin" id="V1P-YE-kDM"/>
                         <segue destination="lUQ-ke-8ih" kind="showDetail" identifier="EditUsers" id="EmD-9c-YT8"/>
                         <segue destination="1VC-1l-EcR" kind="showDetail" identifier="EditingUsers" id="nAC-c2-4yC"/>
+                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="LogOut" id="gfH-yQ-Qiy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oRR-Hr-PYH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1487,7 +1490,10 @@
                                         </constraints>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MI2-YP-YFO" customClass="RoundedButton" customModule="Creative_Pod" customModuleProvider="target">
-                                        <rect key="frame" x="284" y="533" width="266" height="52"/>
+                                        <rect key="frame" x="279.5" y="533" width="275" height="52"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="275" id="5Tn-GY-0tG"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="20"/>
                                         <state key="normal" title="PRESS TO TAKE A PICTURE">
                                             <color key="titleColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1497,7 +1503,10 @@
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BDF-M1-A0d" customClass="RoundedButton" customModule="Creative_Pod" customModuleProvider="target">
-                                        <rect key="frame" x="202" y="595" width="430" height="52"/>
+                                        <rect key="frame" x="192" y="595" width="450" height="52"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="450" id="mHh-am-mkT"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="20"/>
                                         <state key="normal" title="PRESS TO CHOOSE WHO TO SHARE WITH">
                                             <color key="titleColor" red="0.0" green="0.61568627450000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1507,8 +1516,9 @@
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tNw-gF-h2F" customClass="RoundedButton" customModule="Creative_Pod" customModuleProvider="target">
-                                        <rect key="frame" x="305.5" y="961" width="223" height="55"/>
+                                        <rect key="frame" x="294.5" y="961" width="245" height="55"/>
                                         <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="245" id="p4x-pC-i5u"/>
                                             <constraint firstAttribute="height" constant="55" id="rcU-uW-4r9"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="ModeG-Regular" family="Mode G" pointSize="25"/>
@@ -1574,9 +1584,10 @@
         <image name="default-image" width="640" height="480"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="cP0-fp-rFH"/>
+        <segue reference="jw6-B8-Hk9"/>
         <segue reference="Thh-0H-pUr"/>
         <segue reference="AWM-uG-bNj"/>
         <segue reference="HAK-Fh-9Ct"/>
+        <segue reference="djf-Jv-s4b"/>
     </inferredMetricsTieBreakers>
 </document>
